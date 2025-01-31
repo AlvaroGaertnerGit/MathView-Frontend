@@ -1,0 +1,21 @@
+<div class="container">
+  <!-- Sección Izquierda -->
+  <div class="left-panel">
+    <h1>MathView</h1>
+    <label for="functionInput">Introduce una función:</label>
+    <app-calculator id="functionInput"></app-calculator>
+    <button (click)="redirectToVisualizationZeta()">
+      Ir a Visualización Zeta
+    </button>
+  </div>
+
+  <!-- Sección Derecha -->
+  <div class="right-panel">
+    <div class="plot-container">
+      <plotly-plot [data]="graph.data" [layout]="graph.layout"></plotly-plot>
+    </div>
+    <div class="text-container">
+      <p>Esta es una representación de la función en el plano complejo.</p>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,49 @@
+
+.calculator {
+    max-width: 400px;
+    margin: auto;
+    text-align: center;
+}
+
+input {
+    width: 100%;
+    padding: 5px;
+    margin-bottom: 10px;
+    font-size: 1.2em;
+}
+
+.tabs {
+    display: flex;
+    justify-content: space-around;
+    margin-bottom: 10px;
+}
+
+.tabs button {
+    padding: 5px 10px;
+    cursor: pointer;
+    border: none;
+    background: #040404;
+}
+
+.tabs .active {
+    background: #0077ff;
+}
+
+.buttons {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 5px;
+}
+
+button {
+    padding: 10px;
+    font-size: 1em;
+    cursor: pointer;
+}
+
+.clear {
+    margin-top: 10px;
+    width: 100%;
+    background: red;
+    color: white;
+}

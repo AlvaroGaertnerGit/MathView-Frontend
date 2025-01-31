@@ -1,1 +1,102 @@
 /* You can add global styles to this file, and also import other style files */
+/* Estilos Globales */
+
+:root {
+    --primary-bg-color: #343A40; /* Fondo oscuro principal */
+    --secondary-color: #17A2B8;  /* Color secundario para texto y acentos */
+    --text-light-color: #ffffff; /* Blanco para el texto */
+  }
+  
+  body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    color: var(--text-light-color); /* Color de texto blanco */
+    background-color: var(--primary-bg-color); /* Fondo oscuro de la página */
+  }
+  
+  .container {
+    display: flex;
+    flex-direction: row;
+    height: 100vh; /* Altura total de la ventana */
+  }
+  
+  .left-panel {
+    flex: 1;
+    background-color: var(--primary-bg-color); /* Fondo oscuro */
+    border: 1px solid var(--secondary-color); /* Separador con color secundario */
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
+    color: var(--text-light-color); /* Texto blanco */
+  }
+  
+  .left-panel h1 {
+    padding: 20px;
+    margin-bottom: 20px;
+    color: var(--text-light-color); /* Título en blanco */
+  }
+  
+  .left-panel label {
+    padding: 20px;
+    color: var(--secondary-color); /* Label en color secundario */
+    margin-bottom: 10px;
+  }
+  
+  .left-panel input {
+    width: 98%;
+    height: 45px;
+    margin-bottom: 20px;
+    padding: 10px;
+    border-top: 1px solid var(--secondary-color); /* Borde con color secundario */
+    border-bottom: 1px solid var(--secondary-color); /* Borde con color secundario */
+    border-left: 1px solid transparent;
+    border-right: 1px solid transparent;
+    background-color: #495057; /* Gris oscuro complementario */
+    color: var(--text-light-color); /* Texto blanco */
+  }
+  
+  .left-panel input::placeholder {
+    color: #ced4da; /* Placeholder en gris claro */
+  }
+  
+  .left-panel button {
+    width: 100%;
+    height: 45px;
+    padding: 10px 15px;
+    border: none;
+    background-color: var(--secondary-color); /* Fondo del botón */
+    color: var(--text-light-color); /* Texto blanco */
+    cursor: pointer;
+  }
+  
+  .left-panel button:hover {
+    background-color: #138496; /* Tono más oscuro al pasar el mouse */
+  }
+  
+  .right-panel {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    background-color: var(--primary-bg-color); /* Fondo oscuro */
+  }
+  
+  .plot-container {
+    width: 100%; /* Ancho completo */
+    height: 50%; /* Ocupa la mitad superior */
+    border: 1px solid var(--secondary-color); /* Borde opcional */
+  }
+  
+  plotly-plot {
+    width: 100%; /* Ancho del gráfico */
+    height: 100%; /* Altura del gráfico */
+  }
+  
+  .text-container {
+    margin-top: 190px; /* Ajuste de distancia */
+    color: var(--secondary-color); /* Texto color secundario */
+    text-align: center;
+  }
+  
