@@ -1,1 +1,22 @@
-<p>visualization-mandelbrot works!</p>
+<div class="container">
+    <!-- Sección Izquierda -->
+    <div class="left-panel">
+      <h1>Visualización 3D del Conjunto de Mandelbrot</h1>
+      <label for="functionInput">Introduce el exponente:</label>
+      <!-- <input id="functionInput" type="text" placeholder="Escribe tu función aquí" [(ngModel)]="functionInput" />
+      <button (click)="redirectToVisualizationZeta()">
+        Ir a Visualización Zeta
+      </button> -->
+    </div>
+  
+    <!-- Sección Derecha -->
+    <div class="right-panel">
+      <div class="plot-container">
+        <plotly-plot [data]="graph.data" [layout]="graph.layout"></plotly-plot>
+      </div>
+      <div class="text-container">
+        <p>Esta es una representación del Conjunto de Mandelbrot.</p>
+      </div>
+    </div>
+  </div>
+  

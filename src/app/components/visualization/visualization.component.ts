@@ -70,11 +70,12 @@ export class VisualizationComponent implements OnInit {
 
   constructor(private apiService: ApiService, private router: Router) {}
   redirectToVisualizationZeta() {
-    // Redirige a la ruta '/visualizationzeta'
-    // if(this.router.url != '*/visualizationzeta')
-    // {
+
       this.router.navigate(['/visualizationzeta']);
-    // } 
+ 
+  }
+  redirectToVisualizationMandelbrot() {
+      this.router.navigate(['/visualizationMandelbrot']);
   }
   public limpiarCadena(input: string): string {
     // Eliminar espacios y asegurar el formato ax+biy
