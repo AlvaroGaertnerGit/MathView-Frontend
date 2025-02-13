@@ -18,6 +18,7 @@ PlotlyModule.plotlyjs = PlotlyJS;
 })
 export class VisualizationComponent implements OnInit {
   functionInput: string = '';
+  function: string = '';
   graph = {
     data: [
       {
@@ -83,6 +84,7 @@ export class VisualizationComponent implements OnInit {
   }
   sendFunction(functionInput: string)
   {
+    this.function = functionInput;
     functionInput = this.limpiarCadena(functionInput);
     this.apiService.calculateFunction(functionInput).subscribe({
       next: (data) => {
