@@ -18,7 +18,7 @@ PlotlyModule.plotlyjs = PlotlyJS;
 })
 export class VisualizationComponent implements OnInit {
   functionInput: string = '';
-  function: string = '';
+  function: string = 'z';
   graph = {
     data: [
       {

@@ -56,7 +56,7 @@ export class VisualizationZetaComponent implements OnInit {
       plot_bgcolor: '#495057',
       height: 600, // Altura en píxeles
       scene: {
-        xaxis: { title: 'Re (x)', range: [-4, 4], color: '#17A2B8'},
+        xaxis: { title: 'Re (x)', range: [0, 1], color: '#17A2B8'},
         yaxis: { title: 'Im (y)', range: [-30, 30], color: '#17A2B8' },
         zaxis: { title: '|f(z)| (magnitud)', range: [0, 5], color: '#17A2B8' },
       },
