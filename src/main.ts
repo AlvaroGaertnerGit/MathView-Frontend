@@ -7,6 +7,7 @@ import { VisualizationZetaComponent } from './app/components/visualization-zeta/
 import { VisualizationMandelbrotComponent } from './app/components/visualization-mandelbrot/visualization-mandelbrot.component';
 import { LocationStrategy, PathLocationStrategy } from '@angular/common'; // Importar LocationStrategy
 
+
 const routes: Route[] = [
   { path: '', component: VisualizationComponent },
   { path: 'visualizationzeta', component: VisualizationZetaComponent },
