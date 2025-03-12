@@ -1,8 +1,9 @@
 
 .calculator {
-    max-width: 400px;
+    max-width: 100%;
     margin: auto;
     text-align: center;
+    margin-left: 20%;
 }
 
 input {
@@ -11,7 +12,20 @@ input {
     margin-bottom: 10px;
     font-size: 1.2em;
 }
-
+.buttons_numbers {
+    width: 100%;
+    height: 45px;
+    padding: 10px 15px;
+    cursor: pointer;
+    background-color: inherit!important;
+    color: #17a2b8!important;
+    border: 1px solid #17a2b8!important;
+    border-radius: 5px;
+}
+.buttons_numbers:hover {
+    background-color: #17a2b8!important;
+    color: var(--text-light-color)!important;
+}
 .tabs {
     display: flex;
     justify-content: space-around;
@@ -46,4 +60,22 @@ button {
     width: 100%;
     background: red;
     color: white;
+}
+
+
+.input__function
+{
+    border: 1px solid #17a2b8;
+    border-radius: 5px;
+}
+.button__x {
+    background-color: inherit !important;
+    color: #17a2b8;
+    position: absolute;
+    max-width: 2%;
+}
+.input__all {
+    display: flex;
+    justify-content: right;
+    align-items: center;
 }

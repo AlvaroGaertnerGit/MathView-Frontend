@@ -22,4 +22,9 @@ export class ApiService {
     const request =  this.http.get(url, { params });
     return request;
   }
+  getMandelbrot(exp: number): Observable<any> {
+    const url = this.apiUrl + '/calculateMandelbrot/?function=' + exp;
+    const request =  this.http.get(url);
+    return request;
+  }
 }

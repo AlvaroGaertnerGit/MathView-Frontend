@@ -1,19 +1,22 @@
 <div class="calculator">
-    <input type="text" [(ngModel)]="displayExpression" />
+  <div class="input__all">
+    <input class="input__function" type="text" [(ngModel)]="displayExpression" />
+    <button class="button__x" (click)="clearInput()"><i class="fa-solid fa-xmark"></i></button>
+  </div>
     <div class="tabs">
       <button (click)="setTab('numbers')" [class.active]="currentTab === 'numbers'">123</button>
       <button (click)="setTab('functions')" [class.active]="currentTab === 'functions'">f(x)</button>
       <button (click)="setTab('symbols')" [class.active]="currentTab === 'symbols'">#&¬</button>
     </div>
     <div class="buttons" *ngIf="currentTab === 'numbers'">
-      <button *ngFor="let num of numbers" (click)="addSymbol(num)">{{ num }}</button>
+      <button class="buttons_numbers" *ngFor="let num of numbers" (click)="addSymbol(num)">{{ num }}</button>
     </div>
     <div class="buttons" *ngIf="currentTab === 'functions'">
-      <button *ngFor="let func of functions" (click)="addSymbol(func.symbol)">{{ func.display }}</button>
+      <button class="buttons_numbers" *ngFor="let func of functions" (click)="addSymbol(func.symbol)">{{ func.display }}</button>
     </div>
     <div class="buttons" *ngIf="currentTab === 'symbols'">
-      <button *ngFor="let sym of symbols" (click)="addSymbol(sym)">{{ sym }}</button>
+      <button class="buttons_numbers" *ngFor="let sym of symbols" (click)="addSymbol(sym)">{{ sym }}</button>
     </div>
-    <button class="clear" (click)="clearInput()">C</button>
+    <!-- <button class="clear" (click)="clearInput()">C</button> -->
   </div>
   <button id="input__button" (click)="sendFunction()">Enviar</button>

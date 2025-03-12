@@ -6,10 +6,11 @@ import { ApiService } from '../../services/api.service';
 import { Router } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { VisualizationComponent } from '../visualization/visualization.component';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 
 @Component({
   selector: 'app-calculator',
-  imports: [CommonModule, FormsModule, PlotlyModule],
+  imports: [CommonModule, FormsModule, PlotlyModule, FontAwesomeModule],
   templateUrl: './calculator.component.html',
   styleUrl: './calculator.component.scss',
   standalone: true
