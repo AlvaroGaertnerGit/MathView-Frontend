@@ -22,7 +22,27 @@ export class CalculatorComponent {
   displayExpression: string = '';
   currentTab: string = 'numbers';
 
-  numbers: string[] = ['7', '8', '9', '×', '÷', '4', '5', '6', '+', '-', '1', '2', '3', '⌫', '0', '(', ')', 'i','x', 'y'];
+  //numbers: string[] = ['7', '8', '9','×', '÷', '4', '5', '6', '+', '-', '1', '2', '3', '⌫', '0', '(', ')','i','↵'];
+  numbers = [
+    { symbol: '7', display: '7' },
+    { symbol: '8', display: '8' },
+    { symbol: '9', display: '9' },
+    { symbol: '·', display: '·' },
+    { symbol: '÷', display: '/' },
+    { symbol: '4', display: '4' },
+    { symbol: '5', display: '5' },
+    { symbol: '6', display: '6' },
+    { symbol: '+', display: '+' },
+    { symbol: '-', display: '-' },
+    { symbol: '1', display: '1' },
+    { symbol: '2', display: '2' },
+    { symbol: '3', display: '3' },
+    { symbol: '⌫', display: '⌫' },
+    { symbol: '0', display: '0' },
+    { symbol: '(', display: '(' },
+    { symbol: ')', display: ')' },
+    { symbol: '↵', display: '↵' }
+  ];
   functions = [
     { symbol: 'sin', display: 'sen' },
     { symbol: 'cos', display: 'cos' },
@@ -34,7 +54,7 @@ export class CalculatorComponent {
     { symbol: '∂', display: '∂' },
     { symbol: 'Γ', display: 'Γ' }
   ];
-  symbols: string[] = ['π', 'e'];//, '<', '>', '{', '}', '≤', '≥'];
+  symbols: string[] = ['𝑥', '𝑦','𝑧','𝜋', '𝑒'];//, '<', '>', '{', '}', '≤', '≥'];
 
   setTab(tab: string) {
     this.currentTab = tab;
@@ -43,8 +63,12 @@ export class CalculatorComponent {
   addSymbol(symbol: string) {
     if (symbol === '⌫') {
       this.deleteLastCharacter();
-    } else {
-      this.displayExpression += symbol + ' ';
+    }else if(symbol === '↵')
+    {
+      this.sendFunction();
+    }
+     else {
+      this.displayExpression += symbol;
       this.functionInput += symbol; // Se actualiza functionInput también
     }
   }

@@ -9,7 +9,7 @@
       <button (click)="setTab('symbols')" [class.active]="currentTab === 'symbols'">#&¬</button>
     </div>
     <div class="buttons" *ngIf="currentTab === 'numbers'">
-      <button class="buttons_numbers" *ngFor="let num of numbers" (click)="addSymbol(num)">{{ num }}</button>
+      <button class="buttons_numbers" *ngFor="let num of numbers" (click)="addSymbol(num.symbol)">{{ num.display }}</button>
     </div>
     <div class="buttons" *ngIf="currentTab === 'functions'">
       <button class="buttons_numbers" *ngFor="let func of functions" (click)="addSymbol(func.symbol)">{{ func.display }}</button>
@@ -19,4 +19,4 @@
     </div>
     <!-- <button class="clear" (click)="clearInput()">C</button> -->
   </div>
-  <button id="input__button" (click)="sendFunction()">Enviar</button>
+  <!-- <button id="input__button" (click)="sendFunction()">Enviar</button> -->
