@@ -86,9 +86,9 @@
   }
   
   .plot-container {
-    width: 90%; /* Ancho completo */
-    height: 70%; /* Ocupa la mitad superior */
-    border: 1px solid var(--secondary-color); /* Borde opcional */
+    width: 100%; /* Ancho completo */
+    max-height: 60%; /* Ocupa la mitad superior */
+    // border: 1px solid var(--secondary-color); /* Borde opcional */
     display: flex;
     justify-content: center;
     align-items: center;

@@ -1,0 +1,194 @@
+/* Base styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+  
+  /* Dark mode theme */
+  .dark {
+    --bg-primary: #121212;
+    --bg-secondary: #1e1e1e;
+    --bg-tertiary: #2a2a2a;
+    --text-primary: #e0e0e0;
+    --text-secondary: #a0a0a0;
+    --text-muted: #666;
+    --accent: #6366f1;
+    --accent-light: rgba(99, 102, 241, 0.1);
+    --border: #333;
+    --border-hover: #444;
+  }
+  
+  /* Container layout */
+  .container {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    background-color: var(--bg-primary);
+    color: var(--text-primary);
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    padding: 1.5rem;
+  }
+  
+  @media (min-width: 768px) {
+    .container {
+      flex-direction: row;
+    }
+  }
+  
+  /* Left panel */
+  .left-panel {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    padding-bottom: 1.5rem;
+  }
+  
+  @media (min-width: 768px) {
+    .left-panel {
+      width: 40%;
+      padding-right: 1.5rem;
+      border-right: 1px solid var(--border);
+    }
+  }
+  
+  .title {
+    font-size: 1.75rem;
+    font-weight: 600;
+    color: var(--accent);
+    letter-spacing: -0.025em;
+    margin-bottom: 1rem;
+  }
+  
+  .input-section {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+  
+  .input-label {
+    font-size: 0.875rem;
+    color: var(--text-secondary);
+  }
+  
+  /* Functions container */
+  .functions-container {
+    margin-top: 1.5rem;
+  }
+  
+  .functions-title {
+    font-size: 1rem;
+    font-weight: 500;
+    color: var(--text-secondary);
+    margin-bottom: 0.75rem;
+  }
+  
+  .functions-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+  
+  .function-button {
+    background-color: var(--bg-secondary);
+    border: 1px solid var(--border);
+    border-radius: 0.375rem;
+    padding: 0.75rem 1rem;
+    text-align: left;
+    color: var(--text-primary);
+    cursor: pointer;
+    transition: all 0.2s ease;
+  }
+  
+  .function-button:hover {
+    background-color: var(--bg-tertiary);
+    border-color: var(--border-hover);
+  }
+  
+  /* Right panel */
+  .right-panel {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    gap: 1rem;
+  }
+  
+  .header-actions {
+    display: flex;
+    justify-content: flex-end;
+    margin-bottom: 1rem;
+  }
+  
+  .action-button {
+    background-color: transparent;
+    border: 1px solid var(--border);
+    color: var(--text-primary);
+    padding: 0.5rem 0.75rem;
+    border-radius: 0.375rem;
+    font-size: 0.875rem;
+    cursor: pointer;
+    transition: all 0.2s ease;
+  }
+  
+  .action-button:hover {
+    background-color: var(--bg-tertiary);
+    border-color: var(--border-hover);
+  }
+  
+  /* Graph container */
+  .graph-container {
+    background-color: var(--bg-secondary);
+    border-radius: 0.5rem;
+    padding: 1rem;
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+  }
+  
+  .plot-container {
+    flex: 1;
+    margin-bottom: 1rem;
+  }
+  
+  .graph-description {
+    font-size: 0.875rem;
+    color: var(--text-secondary);
+    margin-top: 0.5rem;
+  }
+  
+  .graph-actions {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 1rem;
+  }
+  
+  .toggle-view-link {
+    color: var(--accent);
+    cursor: pointer;
+    font-size: 0.875rem;
+    text-decoration: none;
+    transition: opacity 0.2s ease;
+  }
+  
+  .toggle-view-link:hover {
+    opacity: 0.8;
+    text-decoration: underline;
+  }
+  
+  /* Custom styling for plotly */
+  :host ::ng-deep .js-plotly-plot {
+    height: 70%;
+    background-color: var(--bg-secondary) !important;
+  }
+  
+  :host ::ng-deep .main-svg {
+    background-color: var(--bg-secondary) !important;
+  }
+  
+  :host ::ng-deep .plotly .modebar {
+    background-color: var(--bg-tertiary) !important;
+  }
+  
+  :host ::ng-deep .plotly .modebar-btn path {
+    fill: var(--text-secondary) !important;
+  }

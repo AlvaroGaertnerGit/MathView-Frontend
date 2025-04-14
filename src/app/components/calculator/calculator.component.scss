@@ -1,80 +1,155 @@
+// Variables
+$bg-primary: #121212;
+$bg-secondary: #1e1e1e;
+$bg-tertiary: #2a2a2a;
+$bg-active: #3a3a3a;
+$text-primary: #e0e0e0;
+$text-secondary: #a0a0a0;
+$accent: #6366f1;
+$accent-light: rgba(99, 102, 241, 0.1);
+$border: #333;
+$border-hover: #444;
+$border-radius: 0.375rem;
+$transition: all 0.2s ease;
 
+// Calculator container
 .calculator {
-    max-width: 100%;
-    margin: auto;
-    text-align: center;
+  display: flex;
+  flex-direction: column;
+  background-color: $bg-secondary;
+  border-radius: $border-radius;
+  overflow: hidden;
+  width: 100%;
 }
 
-input {
+// Input container
+.input-container {
+  position: relative;
+  margin-bottom: 0.5rem;
+  
+  .expression-input {
     width: 100%;
-    padding: 5px;
-    margin-bottom: 10px;
-    font-size: 1.2em;
-}
-.buttons_numbers {
-    width: 100%;
-    height: 45px;
-    padding: 10px 15px;
-    cursor: pointer;
-    background-color: inherit!important;
-    color: #343A40!important;
-    border: 1px solid #343A40!important;
-    border-radius: 5px;
-}
-.buttons_numbers:hover {
-    background-color: #343A40!important;
-    color: var(--text-light-color)!important;
-}
-.tabs {
-    display: flex;
-    justify-content: space-around;
-    margin-bottom: 10px;
-}
-
-.tabs button {
-    padding: 5px 10px;
-    cursor: pointer;
-    border: none;
-    background: #040404;
-}
-
-.tabs .active {
-    background: #0077ff;
-}
-
-.buttons {
-    display: grid;
-    grid-template-columns: repeat(5, 1fr);
-    gap: 5px;
-}
-
-button {
-    padding: 10px;
-    font-size: 1em;
-    cursor: pointer;
-}
-
-.clear {
-    margin-top: 10px;
-    width: 100%;
-    background: red;
-    color: white;
-}
-
-
-.input__function
-{
-    border: 1px solid #343A40;
-    border-radius: 5px;
-}
-.button__x {
-    background-color: inherit !important;
-    color: #343A40;
+    background-color: $bg-tertiary;
+    border: 1px solid $border;
+    border-radius: $border-radius;
+    padding: 0.75rem 2.5rem 0.75rem 1rem;
+    color: $text-primary;
+    font-size: 1rem;
+    transition: $transition;
+    
+    &:focus {
+      outline: none;
+      border-color: $accent;
+      box-shadow: 0 0 0 1px $accent-light;
+    }
+    
+    &::placeholder {
+      color: $text-secondary;
+      opacity: 0.7;
+    }
+  }
+  
+  .clear-button {
     position: absolute;
-    max-width: 2%;
-}
-.input__all {
+    right: 0.5rem;
+    top: 50%;
+    transform: translateY(-50%);
+    background: none;
+    border: none;
+    color: $text-secondary;
+    font-size: 1rem;
+    cursor: pointer;
+    width: 2rem;
+    height: 2rem;
     display: flex;
-    justify-content: right;
     align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    transition: $transition;
+    
+    &:hover {
+      background-color: rgba(255, 255, 255, 0.05);
+      color: $text-primary;
+    }
+  }
+}
+
+// Tabs
+.tabs-container {
+  display: flex;
+  border-bottom: 1px solid $border;
+  margin-bottom: 0.5rem;
+  
+  .tab-button {
+    flex: 1;
+    background-color: transparent;
+    border: none;
+    color: $text-secondary;
+    padding: 0.75rem 0;
+    font-size: 0.875rem;
+    cursor: pointer;
+    transition: $transition;
+    
+    &:hover {
+      background-color: $bg-tertiary;
+      color: $text-primary;
+    }
+    
+    &.active {
+      color: $accent;
+      border-bottom: 2px solid $accent;
+    }
+  }
+}
+
+// Keypad
+.keypad {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 0.5rem;
+  padding: 0.75rem;
+  
+  .keypad-button {
+    background-color: $bg-tertiary;
+    border: none;
+    color: $text-primary;
+    font-size: 1rem;
+    height: 2.5rem;
+    border-radius: $border-radius;
+    cursor: pointer;
+    transition: $transition;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    
+    &:hover {
+      background-color: $bg-active;
+    }
+    
+    &:active {
+      transform: translateY(1px);
+    }
+  }
+}
+
+// Special styling for function buttons
+.keypad-button:nth-child(4n) {
+  background-color: rgba($accent, 0.2);
+  
+  &:hover {
+    background-color: rgba($accent, 0.3);
+  }
+}
+
+// Media queries for responsive design
+@media (min-width: 768px) {
+  .keypad {
+    grid-template-columns: repeat(5, 1fr);
+  }
+}
+
+@media (min-width: 1024px) {
+  .keypad {
+    grid-template-columns: repeat(6, 1fr);
+  }
 }

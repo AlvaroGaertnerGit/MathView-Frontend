@@ -6,12 +6,14 @@ import { VisualizationComponent } from './app/components/visualization/visualiza
 import { VisualizationZetaComponent } from './app/components/visualization-zeta/visualization-zeta.component';
 import { VisualizationMandelbrotComponent } from './app/components/visualization-mandelbrot/visualization-mandelbrot.component';
 import { LocationStrategy, PathLocationStrategy } from '@angular/common'; // Importar LocationStrategy
+import { LoginComponent } from './app/components/login/login.component';
 
 
 const routes: Route[] = [
   { path: '', component: VisualizationComponent },
   { path: 'visualizationzeta', component: VisualizationZetaComponent },
   { path: 'visualizationMandelbrot', component: VisualizationMandelbrotComponent },
+  { path: 'login', component: LoginComponent },
 ];
 
 bootstrapApplication(AppComponent, {

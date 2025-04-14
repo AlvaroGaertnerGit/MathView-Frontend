@@ -21,6 +21,8 @@
 
   <!-- Sección Derecha -->
   <div class="right-panel">
+    <button (click)="goToLogin()">Ir a Login</button>
+
     <div *ngIf="showMagnitude" class="plot-container">
       <plotly-plot [data]="graph.data" [layout]="graph.layout"></plotly-plot>
     </div>

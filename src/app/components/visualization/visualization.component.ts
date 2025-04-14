@@ -128,6 +128,9 @@ export class VisualizationComponent implements OnInit {
   redirectToVisualizationMandelbrot() {
       this.router.navigate(['/visualizationMandelbrot']);
   }
+  goToLogin(): void {
+    this.router.navigate(['/login']);
+  }
   public limpiarCadena(input: string): string {
     // Eliminar espacios y asegurar el formato ax+biy
     return input.replace(/\s+/g, '').replace(/%2B/g, '+'); // Elimina todos los espacios
