@@ -8,6 +8,7 @@ import { request } from 'https';
 })
 export class ApiService {
   private apiUrl = 'http://localhost:8000/api'; // Cambia esto a la URL de tu API
+  
 
   constructor(private http: HttpClient) {}
 
@@ -27,4 +28,5 @@ export class ApiService {
     const request =  this.http.get(url);
     return request;
   }
+  
 }

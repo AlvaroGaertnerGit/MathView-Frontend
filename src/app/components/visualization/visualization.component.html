@@ -1,19 +1,28 @@
 <div class="container">
   <!-- Sección Izquierda -->
   <div class="left-panel">
-    <h1>MathView</h1>
+    <h1 class="title">MathView</h1>
     <label for="functionInput">Introduce una función:</label>
     <app-calculator id="functionInput"></app-calculator>
-    <button (click)="redirectToVisualizationZeta()">
-      Ir a Visualización Zeta
-    </button>
-    <button (click)="redirectToVisualizationMandelbrot()">
-      Ir a Visualización Mandelbrot
-    </button>
+    <div class="funciones_especiales" *ngIf="false">
+      <div class="texto__especiales">
+        <h3>Funciones especiales</h3>
+      </div>
+      <div class="buttons__redirect">
+        <button (click)="redirectToVisualizationZeta()">
+          Ir a Visualización Zeta
+        </button>
+        <button (click)="redirectToVisualizationMandelbrot()">
+          Ir a Visualización Mandelbrot
+        </button>
+      </div>
+    </div>
   </div>
 
   <!-- Sección Derecha -->
   <div class="right-panel">
+    <button (click)="goToLogin()">Ir a Login</button>
+
     <div *ngIf="showMagnitude" class="plot-container">
       <plotly-plot [data]="graph.data" [layout]="graph.layout"></plotly-plot>
     </div>

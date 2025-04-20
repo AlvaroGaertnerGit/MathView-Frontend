@@ -27,12 +27,12 @@ export class VisualizationMandelbrotComponent implements OnInit{
         type: 'surface', // Representación en 3D
         colorscale: 'Viridis', // Escala de colores más eficiente
         colorbar: {
-          bgcolor: '#343a40',
-          tickcolor: '#17A2B8',
+          bgcolor: '#dacfcf',
+          tickcolor: '#343A40',
           title: {
             text: 'Iteraciones',
             font: {
-              color: '#17A2B8',
+              color: '#343A40',
               size: 14
             }
           },
@@ -50,12 +50,12 @@ export class VisualizationMandelbrotComponent implements OnInit{
       width: 900,
       height: 600,
       autosize: true,
-      paper_bgcolor: '#343a40',
+      paper_bgcolor: '#dacfcf',
       plot_bgcolor: '#495057',
       scene: {
-        xaxis: { title: 'Re (x)', range: [-2, 2], color: '#17A2B8' },
-        yaxis: { title: 'Im (y)', range: [-2, 2], color: '#17A2B8' },
-        zaxis: { title: 'Iteraciones', range: [0, 100], color: '#17A2B8' },
+        xaxis: { title: 'Re (x)', range: [-2, 2], color: '#343A40' },
+        yaxis: { title: 'Im (y)', range: [-2, 2], color: '#343A40' },
+        zaxis: { title: 'Iteraciones', range: [0, 100], color: '#343A40' },
       },
     },
   };

@@ -1,22 +1,67 @@
 <div class="calculator">
-  <div class="input__all">
-    <input class="input__function" type="text" [(ngModel)]="displayExpression" />
-    <button class="button__x" (click)="clearInput()"><i class="fa-solid fa-xmark"></i></button>
+  <div class="input-container">
+    <input 
+      class="expression-input" 
+      type="text" 
+      [(ngModel)]="displayExpression" 
+      placeholder="f(x) = ..."
+    />
+    <button class="clear-button" (click)="clearInput()">
+      <i class="fa-solid fa-xmark"></i>
+    </button>
   </div>
-    <div class="tabs">
-      <button (click)="setTab('numbers')" [class.active]="currentTab === 'numbers'">123</button>
-      <button (click)="setTab('functions')" [class.active]="currentTab === 'functions'">f(x)</button>
-      <button (click)="setTab('symbols')" [class.active]="currentTab === 'symbols'">#&¬</button>
-    </div>
-    <div class="buttons" *ngIf="currentTab === 'numbers'">
-      <button class="buttons_numbers" *ngFor="let num of numbers" (click)="addSymbol(num)">{{ num }}</button>
-    </div>
-    <div class="buttons" *ngIf="currentTab === 'functions'">
-      <button class="buttons_numbers" *ngFor="let func of functions" (click)="addSymbol(func.symbol)">{{ func.display }}</button>
-    </div>
-    <div class="buttons" *ngIf="currentTab === 'symbols'">
-      <button class="buttons_numbers" *ngFor="let sym of symbols" (click)="addSymbol(sym)">{{ sym }}</button>
-    </div>
-    <!-- <button class="clear" (click)="clearInput()">C</button> -->
+  
+  <div class="tabs-container">
+    <button 
+      class="tab-button" 
+      (click)="setTab('numbers')" 
+      [class.active]="currentTab === 'numbers'"
+    >
+      123
+    </button>
+    <button 
+      class="tab-button" 
+      (click)="setTab('functions')" 
+      [class.active]="currentTab === 'functions'"
+    >
+      f(x)
+    </button>
+    <button 
+      class="tab-button" 
+      (click)="setTab('symbols')" 
+      [class.active]="currentTab === 'symbols'"
+    >
+      #&¬
+    </button>
   </div>
-  <button id="input__button" (click)="sendFunction()">Enviar</button>
+  
+  <div class="keypad" *ngIf="currentTab === 'numbers'">
+    <button 
+      class="keypad-button" 
+      *ngFor="let num of numbers" 
+      (click)="addSymbol(num.symbol)"
+    >
+      {{ num.display }}
+    </button>
+  </div>
+  
+  <div class="keypad" *ngIf="currentTab === 'functions'">
+    <button 
+      class="keypad-button" 
+      *ngFor="let func of functions" 
+      (click)="addSymbol(func.symbol)"
+    >
+      {{ func.display }}
+    </button>
+  </div>
+  
+  <div class="keypad" *ngIf="currentTab === 'symbols'">
+    <button 
+      class="keypad-button" 
+      *ngFor="let sym of symbols" 
+      (click)="addSymbol(sym)"
+    >
+      {{ sym }}
+    </button>
+  </div>
+</div>

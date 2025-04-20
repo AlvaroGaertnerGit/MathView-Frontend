@@ -30,12 +30,12 @@ export class VisualizationZetaComponent implements OnInit {
           [1.0, 'rgb(255, 0, 0)'], // Rojo (cierre del ciclo)
         ], // Escala de colores
         colorbar: {
-          bgcolor: '#343a40', // Fondo de la barra de colores
-          tickcolor: '#17A2B8', // Color de las marcas de los ticks
+          bgcolor: '#dacfcf', // Fondo de la barra de colores
+          tickcolor: '#343A40', // Color de las marcas de los ticks
           title: {
             text: '', // Texto del título de la barra
             font: {
-              color: '#17A2B8', // Color del texto del título
+              color: '#343A40', // Color del texto del título
               size: 14 // Tamaño del título
             }
           },
@@ -52,13 +52,13 @@ export class VisualizationZetaComponent implements OnInit {
       title: 'Plano Complejo',
       width: 900, // Ancho en píxeles
       autosize: true,
-      paper_bgcolor: '#343a40',
+      paper_bgcolor: '#dacfcf',
       plot_bgcolor: '#495057',
       height: 600, // Altura en píxeles
       scene: {
-        xaxis: { title: 'Re (x)', range: [0, 1], color: '#17A2B8'},
-        yaxis: { title: 'Im (y)', range: [-30, 30], color: '#17A2B8' },
-        zaxis: { title: '|f(z)| (magnitud)', range: [0, 5], color: '#17A2B8' },
+        xaxis: { title: 'Re (x)', range: [0, 1], color: '#343A40'},
+        yaxis: { title: 'Im (y)', range: [-30, 30], color: '#343A40' },
+        zaxis: { title: '|f(z)| (magnitud)', range: [0, 5], color: '#343A40' },
       },
     },
   };

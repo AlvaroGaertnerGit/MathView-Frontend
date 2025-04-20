@@ -2,9 +2,9 @@
 /* Estilos Globales */
 
 :root {
-    --primary-bg-color: #343A40; /* Fondo oscuro principal */
-    --secondary-color: #17A2B8;  /* Color secundario para texto y acentos */
-    --text-light-color: #ffffff; /* Blanco para el texto */
+    --primary-bg-color: #dacfcf; /* Fondo oscuro principal */
+    --secondary-color: #343A40;  /* Color secundario para texto y acentos */
+    --text-light-color: #000000; /* Blanco para el texto */
   }
   
   body {
@@ -25,11 +25,11 @@
     width: 50%;
     flex: 1;
     background-color: var(--primary-bg-color); /* Fondo oscuro */
-    border: 1px solid var(--secondary-color); /* Separador con color secundario */
+    // border: 1px solid var(--secondary-color); /* Separador con color secundario */
     display: flex;
     flex-direction: column;
     align-items: flex-start;
-    justify-content: center;
+    margin-left: 5%;
     color: var(--text-light-color); /* Texto blanco */
   }
   
@@ -54,7 +54,7 @@
     border-bottom: 1px solid var(--secondary-color); /* Borde con color secundario */
     border-left: 1px solid transparent;
     border-right: 1px solid transparent;
-    background-color: #495057; /* Gris oscuro complementario */
+    background-color: #dacfcf; /* Gris oscuro complementario */
     color: var(--text-light-color); /* Texto blanco */
   }
   
@@ -75,7 +75,6 @@
   .left-panel button:hover {
     background-color: #138496; /* Tono más oscuro al pasar el mouse */
   }
-  
   .right-panel {
     width: 50%;
     flex: 1;
@@ -87,10 +86,10 @@
   }
   
   .plot-container {
-    width: 90%; /* Ancho completo */
-    height: 70%; /* Ocupa la mitad superior */
-    border: 1px solid var(--secondary-color); /* Borde opcional */
-    display: flex;
+    width: 100%; /* Ancho completo */
+    max-height: 50%; /* Ocupa la mitad superior */
+    // border: 1px solid var(--secondary-color); /* Borde opcional */
+    // display: flex;
     justify-content: center;
     align-items: center;
   }

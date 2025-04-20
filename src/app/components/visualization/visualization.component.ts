@@ -39,12 +39,12 @@ export class VisualizationComponent implements OnInit {
         
         ], // Escala de colores
         colorbar: {
-          bgcolor: '#343a40', // Fondo de la barra de colores
-          tickcolor: '#17A2B8', // Color de las marcas de los ticks
+          bgcolor: '#dacfcf', // Fondo de la barra de colores
+          tickcolor: '#343A40', // Color de las marcas de los ticks
           title: {
             text: '', // Texto del título de la barra
             font: {
-              color: '#17A2B8', // Color del texto del título
+              color: '#343A40', // Color del texto del título
               size: 14 // Tamaño del título
             }
           },
@@ -58,14 +58,14 @@ export class VisualizationComponent implements OnInit {
     layout: {
       title: 'Plano Complejo',
       autosize: true,
-      paper_bgcolor: '#343a40',
+      paper_bgcolor: '#dacfcf',
       plot_bgcolor: '#495057',
       // width: 900, // Ancho en píxeles
       // height: 600, // Altura en píxeles
       scene: {
-        xaxis: { title: 'Re (x)', range: [-2, 2] , color: '#17A2B8'},
-        yaxis: { title: 'Im (y)', range: [-2, 2] , color: '#17A2B8'},
-        zaxis: { title: '|f(z)| (magnitud)' , color: '#17A2B8'},
+        xaxis: { title: 'Re (x)', range: [-2, 2] , color: '#343A40'},
+        yaxis: { title: 'Im (y)', range: [-2, 2] , color: '#343A40'},
+        zaxis: { title: '|f(z)| (magnitud)' , color: '#343A40'},
       },
       margin: { t: 0, r: 0, l: 0, b: 0 }
     },
@@ -88,12 +88,12 @@ export class VisualizationComponent implements OnInit {
         
         ], // Escala de colores
         colorbar: {
-          bgcolor: '#343a40', // Fondo de la barra de colores
-          tickcolor: '#17A2B8', // Color de las marcas de los ticks
+          bgcolor: '#dacfcf', // Fondo de la barra de colores
+          tickcolor: '#343A40', // Color de las marcas de los ticks
           title: {
             text: '', // Texto del título de la barra
             font: {
-              color: '#17A2B8', // Color del texto del título
+              color: '#343A40', // Color del texto del título
               size: 14 // Tamaño del título
             }
           },
@@ -107,14 +107,14 @@ export class VisualizationComponent implements OnInit {
     layout: {
       title: 'Plano Complejo',
       autosize: true,
-      paper_bgcolor: '#343a40',
+      paper_bgcolor: '#dacfcf',
       plot_bgcolor: '#495057',
       // width: , // Ancho en píxeles
       // height: 600, // Altura en píxeles
       scene: {
-        xaxis: { title: 'Re (x)', range: [-2, 2] , color: '#17A2B8'},
-        yaxis: { title: 'Im (y)', range: [-2, 2] , color: '#17A2B8'},
-        zaxis: { title: '|arg(z)| (fase)' , color: '#17A2B8'},
+        xaxis: { title: 'Re (x)', range: [-2, 2] , color: '#343A40'},
+        yaxis: { title: 'Im (y)', range: [-2, 2] , color: '#343A40'},
+        zaxis: { title: '|arg(z)| (fase)' , color: '#343A40'},
       },
       margin: { t: 0, r: 0, l: 0, b: 0 }
     },
@@ -127,6 +127,9 @@ export class VisualizationComponent implements OnInit {
   }
   redirectToVisualizationMandelbrot() {
       this.router.navigate(['/visualizationMandelbrot']);
+  }
+  goToLogin(): void {
+    this.router.navigate(['/login']);
   }
   public limpiarCadena(input: string): string {
     // Eliminar espacios y asegurar el formato ax+biy
