@@ -4,7 +4,7 @@
     <h1 class="title">MathView</h1>
     <label for="functionInput">Introduce una función:</label>
     <app-calculator id="functionInput"></app-calculator>
-    <div class="funciones_especiales" *ngIf="false">
+    <div class="funciones_especiales" *ngIf="true">
       <div class="texto__especiales">
         <h3>Funciones especiales</h3>
       </div>
@@ -18,9 +18,28 @@
       </div>
     </div>
   </div>
+  <!-- Popup de información -->
+<div class="modal-overlay" *ngIf="functionInfo" (click)="functionInfo = null">
+  <div class="modal-content" (click)="$event.stopPropagation()">
+    <button class="close-btn" (click)="functionInfo = null">×</button>
+    <h3>Información relevante de la función</h3>
+    <p><strong>Función:</strong> {{ functionInfo.expression }}</p>
+    <p><strong>Polos:</strong> {{ functionInfo.poles.join(', ') || 'Ninguno' }}</p>
+    <p><strong>Ceros:</strong> {{ functionInfo.zeros.join(', ') || 'Ninguno' }}</p>
+    <p><strong>Notas:</strong> {{ functionInfo.notes }}</p>
+    <p><strong>Representación:</strong> {{ getRepresentationDescription() }}</p>
+  </div>
+</div>
 
   <!-- Sección Derecha -->
   <div class="right-panel">
+    <!-- Icono para mostrar información -->
+
+    <div class="info-icon" (click)="loadFunctionInfo()">
+      <i class="fa-solid fa-info"></i>
+    </div>
+
+
     <button (click)="goToLogin()">Ir a Login</button>
 
     <div *ngIf="showMagnitude" class="plot-container">
@@ -32,8 +51,9 @@
     <div class="text-container">
       <p>Esta es una representación de la función {{function}} en el plano complejo.</p>
       <div class="button-text-container">
-        <a (click)="cambiaVisualizacion()" *ngIf="showMagnitude">Cambiar a visualización de la fase</a>
-        <a (click)="cambiaVisualizacion()" *ngIf="showPhase">Cambiar a visualización de la magnitud</a>
+        <a (click)="cambiaVisualizacion(1)" *ngIf="showMagnitude">Cambiar a visualización de la fase</a>
+        <a (click)="cambiaVisualizacion(2)" *ngIf="showPhase">Cambiar a visualización de la magnitud</a>
+        <a (click)="cambiaVisualizacion(3)" *ngIf="showPhase">Cambiar a visualización 2D</a>
       </div>
     </div>
   </div>

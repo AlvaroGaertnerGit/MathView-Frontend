@@ -28,5 +28,10 @@ export class ApiService {
     const request =  this.http.get(url);
     return request;
   }
-  
+    getFunctionInfo(expression: string): Observable<any> {
+      const url = this.apiUrl + '/analyzeFunction';
+    return this.http.get(url, {
+      params: { expression }
+    });
+  }
 }

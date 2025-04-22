@@ -21,6 +21,15 @@ export class VisualizationComponent implements OnInit {
   function: string = 'z';
   showMagnitude = true;
   showPhase = false;
+  show2D = false;
+  functionInfo: {
+    expression: string,
+    zeros: string[],
+    poles: string[],
+    notes: string
+  } | null = null;
+  
+
   graph = {
     data: [
       {
@@ -153,9 +162,20 @@ export class VisualizationComponent implements OnInit {
       error: (error) => console.error('Error al obtener los datos', error),
     });
   }
-  cambiaVisualizacion() {
-    this.showMagnitude = !this.showMagnitude;
-    this.showPhase = !this.showPhase;
+  cambiaVisualizacion(num: number) {
+    if(num = 1){
+      this.showMagnitude = false;
+      this.showPhase = true;
+    }else if(num = 2)
+    {
+      this.showMagnitude = true;
+      this.showPhase = false;
+    }else if(num = 3)
+      {
+      this.showMagnitude = false;
+      this.showPhase = false;
+      this.show2D = true;
+    }
   }
   ngOnInit(): void {
     // Llamar al servicio para obtener los datos
@@ -175,5 +195,46 @@ export class VisualizationComponent implements OnInit {
       error: (error) => console.error('Error al obtener los datos', error),
     });
   }
-
+  loadFunctionInfo() {
+    this.apiService.getFunctionInfo(this.function).subscribe({
+      next: (data: any) => {
+        this.functionInfo = {
+          expression: data.expression,
+          zeros: data.zeros || [],
+          poles: data.poles || [],
+          notes: data.notes || 'Sin anotaciones.'
+        };
+      },
+      error: () => {
+        this.functionInfo = {
+          expression: this.function,
+          zeros: [],
+          poles: [],
+          notes: 'No se pudo analizar la función.'
+        };
+      }
+    });
+    
+  }
+  
+  getRepresentationDescription(): string {
+    let viewMode: string = '';
+    if(this.showMagnitude)
+    {
+      viewMode = 'magnitude';
+    }
+    else if(this.showPhase)
+    {
+      viewMode = 'phase';
+    }else if(this.show2D)
+    {
+      viewMode = '2D';
+    }
+    switch(viewMode) {
+      case 'magnitude': return 'Muestra la distancia del valor complejo al origen (mod(z)).';
+      case 'phase': return 'Muestra el ángulo del número complejo (arg(z)).';
+      case '2D': return 'Representación de Re(z) frente a Im(z).';
+      default: return 'Desconocido.';
+    }
+  }
 }
