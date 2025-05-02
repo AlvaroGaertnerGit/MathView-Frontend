@@ -7,7 +7,7 @@ import { request } from 'https';
   providedIn: 'root',
 })
 export class ApiService {
-  private apiUrl = 'http://localhost:8000/api'; // Cambia esto a la URL de tu API
+  private apiUrl = 'https://mathview-backend.azurewebsites.net/api';
   
 
   constructor(private http: HttpClient) {}
