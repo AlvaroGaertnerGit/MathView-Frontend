@@ -5,7 +5,7 @@ import { ApiService } from '../../services/api.service';
 import { Router } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import { CalculatorComponent } from "../calculator/calculator.component";
+import { CalculatorComponent } from '../calculator/calculator.component';
 
 PlotlyModule.plotlyjs = PlotlyJS;
 
@@ -22,179 +22,196 @@ export class VisualizationComponent implements OnInit {
   showMagnitude = true;
   showPhase = false;
   show2D = false;
+
   functionInfo: {
-    expression: string,
-    zeros: string[],
-    poles: string[],
-    notes: string
+    expression: string;
+    zeros: string[];
+    poles: string[];
+    notes: string;
   } | null = null;
-  
 
   graph = {
     data: [
       {
-        z: [], // La magnitud como matriz 2D
-        x: [], // Valores reales
-        y: [], // Valores imaginarios
-        type: 'surface', // Representamos un plano 3D
+        z: [],
+        x: [],
+        y: [],
+        surfacecolor: [],
+        type: 'surface',
         colorscale: [
-          [0.0, 'rgb(255, 0, 0)'], // Rojo
-          [0.17, 'rgb(255, 0, 255)'], // Magenta
-          [0.33, 'rgb(0, 0, 255)'], // Azul
-          [0.5, 'rgb(0, 255, 255)'], // Cyan
-          [0.67, 'rgb(0, 255, 0)'], // Verde
-          [0.83, 'rgb(255, 255, 0)'], // Amarillo
-          [1.0, 'rgb(255, 0, 0)'], // Rojo (cierre del ciclo)
-        
-        ], // Escala de colores
+          [0.0, 'rgb(255, 0, 0)'],
+          [0.17, 'rgb(255, 0, 255)'],
+          [0.33, 'rgb(0, 0, 255)'],
+          [0.5, 'rgb(0, 255, 255)'],
+          [0.67, 'rgb(0, 255, 0)'],
+          [0.83, 'rgb(255, 255, 0)'],
+          [1.0, 'rgb(255, 0, 0)'],
+        ],
+        cmin: -Math.PI,
+        cmax: Math.PI,
         colorbar: {
-          bgcolor: '#dacfcf', // Fondo de la barra de colores
-          tickcolor: '#343A40', // Color de las marcas de los ticks
+          bgcolor: '#dacfcf',
+          tickcolor: '#343A40',
           title: {
-            text: '', // Texto del título de la barra
-            font: {
-              color: '#343A40', // Color del texto del título
-              size: 14 // Tamaño del título
-            }
+            text: 'Fase arg(f(z))',
+            font: { color: '#343A40', size: 14 },
           },
-          tickfont: {
-            color: '#ffffff', // Color de los valores numéricos
-            size: 12 // Tamaño del texto
-          }
-        }
+          tickfont: { color: '#ffffff', size: 12 },
+        },
       },
     ],
     layout: {
-      title: 'Plano Complejo',
+      title: 'Plano Complejo (Altura: |f(z)|, Color: arg(f(z)))',
       autosize: true,
       paper_bgcolor: '#dacfcf',
       plot_bgcolor: '#495057',
-      // width: 900, // Ancho en píxeles
-      // height: 600, // Altura en píxeles
       scene: {
-        xaxis: { title: 'Re (x)', range: [-2, 2] , color: '#343A40'},
-        yaxis: { title: 'Im (y)', range: [-2, 2] , color: '#343A40'},
-        zaxis: { title: '|f(z)| (magnitud)' , color: '#343A40'},
+        xaxis: { title: 'Re (x)', range: [-2, 2], color: '#343A40' },
+        yaxis: { title: 'Im (y)', range: [-2, 2], color: '#343A40' },
+        zaxis: { title: '|f(z)|', color: '#343A40' },
       },
-      margin: { t: 0, r: 0, l: 0, b: 0 }
+      margin: { t: 0, r: 0, l: 0, b: 0 },
     },
   };
+
   graph2 = {
     data: [
       {
-        z: [], // La magnitud como matriz 2D
-        x: [], // Valores reales
-        y: [], // Valores imaginarios
-        type: 'surface', // Representamos un plano 3D
+        z: [],
+        x: [],
+        y: [],
+        surfacecolor: [],
+        type: 'surface',
         colorscale: [
-          [0.0, 'rgb(255, 0, 0)'], // Rojo
-          [0.17, 'rgb(255, 0, 255)'], // Magenta
-          [0.33, 'rgb(0, 0, 255)'], // Azul
-          [0.5, 'rgb(0, 255, 255)'], // Cyan
-          [0.67, 'rgb(0, 255, 0)'], // Verde
-          [0.83, 'rgb(255, 255, 0)'], // Amarillo
-          [1.0, 'rgb(255, 0, 0)'], // Rojo (cierre del ciclo)
-        
-        ], // Escala de colores
+          [0.0, 'rgb(255, 0, 0)'],
+          [0.17, 'rgb(255, 0, 255)'],
+          [0.33, 'rgb(0, 0, 255)'],
+          [0.5, 'rgb(0, 255, 255)'],
+          [0.67, 'rgb(0, 255, 0)'],
+          [0.83, 'rgb(255, 255, 0)'],
+          [1.0, 'rgb(255, 0, 0)'],
+        ],
+        cmin: 0,
+        cmax: 1,
         colorbar: {
-          bgcolor: '#dacfcf', // Fondo de la barra de colores
-          tickcolor: '#343A40', // Color de las marcas de los ticks
+          bgcolor: '#dacfcf',
+          tickcolor: '#343A40',
           title: {
-            text: '', // Texto del título de la barra
-            font: {
-              color: '#343A40', // Color del texto del título
-              size: 14 // Tamaño del título
-            }
+            text: 'Magnitud |f(z)|',
+            font: { color: '#343A40', size: 14 },
           },
-          tickfont: {
-            color: '#ffffff', // Color de los valores numéricos
-            size: 12 // Tamaño del texto
-          }
-        }
+          tickfont: { color: '#ffffff', size: 12 },
+        },
       },
     ],
     layout: {
-      title: 'Plano Complejo',
+      title: 'Plano Complejo (Altura: arg(f(z)), Color: |f(z)|)',
       autosize: true,
       paper_bgcolor: '#dacfcf',
       plot_bgcolor: '#495057',
-      // width: , // Ancho en píxeles
-      // height: 600, // Altura en píxeles
       scene: {
-        xaxis: { title: 'Re (x)', range: [-2, 2] , color: '#343A40'},
-        yaxis: { title: 'Im (y)', range: [-2, 2] , color: '#343A40'},
-        zaxis: { title: '|arg(z)| (fase)' , color: '#343A40'},
+        xaxis: { title: 'Re (x)', range: [-2, 2], color: '#343A40' },
+        yaxis: { title: 'Im (y)', range: [-2, 2], color: '#343A40' },
+        zaxis: { title: 'arg(f(z))', color: '#343A40' },
       },
-      margin: { t: 0, r: 0, l: 0, b: 0 }
+      margin: { t: 0, r: 0, l: 0, b: 0 },
     },
   };
-  constructor(private apiService: ApiService, private router: Router) {}
-  redirectToVisualizationZeta() {
 
-      this.router.navigate(['/visualizationzeta']);
- 
+  constructor(private apiService: ApiService, private router: Router) {}
+
+  redirectToVisualizationZeta() {
+    this.router.navigate(['/visualizationzeta']);
   }
+
   redirectToVisualizationMandelbrot() {
-      this.router.navigate(['/visualizationMandelbrot']);
+    this.router.navigate(['/visualizationMandelbrot']);
   }
+
   goToLogin(): void {
     this.router.navigate(['/login']);
   }
-  public limpiarCadena(input: string): string {
-    // Eliminar espacios y asegurar el formato ax+biy
-    return input.replace(/\s+/g, '').replace(/%2B/g, '+'); // Elimina todos los espacios
+
+  limpiarCadena(input: string): string {
+    return input.replace(/\s+/g, '').replace(/%2B/g, '+');
   }
-  sendFunction(functionInput: string)
-  {
+
+  sendFunction(functionInput: string) {
     this.function = functionInput;
     functionInput = this.limpiarCadena(functionInput);
     this.apiService.calculateFunction(functionInput).subscribe({
       next: (data) => {
+        const mag = data.magnitude.flat();
+        const phase = data.phase.flat();
+
+        const magMin = Math.min(...mag);
+        const magMax = Math.max(...mag);
+        const phaseMin = Math.min(...phase);
+        const phaseMax = Math.max(...phase);
+
+        // Graph
         this.graph.data[0].x = data.x;
         this.graph.data[0].y = data.y;
         this.graph.data[0].z = data.magnitude;
+        this.graph.data[0].surfacecolor = data.phase;
+        this.graph.data[0].cmin = phaseMin;
+        this.graph.data[0].cmax = phaseMax;
 
+        // Graph2
         this.graph2.data[0].x = data.x;
         this.graph2.data[0].y = data.y;
         this.graph2.data[0].z = data.phase;
-        // Opcional: agregar una transformación para fases o colores personalizados
+        this.graph2.data[0].surfacecolor = data.magnitude;
+        this.graph2.data[0].cmin = magMin;
+        this.graph2.data[0].cmax = magMax;
       },
       error: (error) => console.error('Error al obtener los datos', error),
     });
   }
+
   cambiaVisualizacion(num: number) {
-    if(num = 1){
+    if (num === 1) {
       this.showMagnitude = false;
       this.showPhase = true;
-    }else if(num = 2)
-    {
+    } else if (num === 2) {
       this.showMagnitude = true;
       this.showPhase = false;
-    }else if(num = 3)
-      {
+    } else if (num === 3) {
       this.showMagnitude = false;
       this.showPhase = false;
       this.show2D = true;
     }
   }
+
   ngOnInit(): void {
-    // Llamar al servicio para obtener los datos
     this.apiService.getData('calculateFunction').subscribe({
       next: (data) => {
+        const mag = data.magnitude.flat();
+        const phase = data.phase.flat();
+
+        const magMin = Math.min(...mag);
+        const magMax = Math.max(...mag);
+        const phaseMin = Math.min(...phase);
+        const phaseMax = Math.max(...phase);
+
         this.graph.data[0].x = data.x;
         this.graph.data[0].y = data.y;
         this.graph.data[0].z = data.magnitude;
-        
+        this.graph.data[0].surfacecolor = data.phase;
+        this.graph.data[0].cmin = phaseMin;
+        this.graph.data[0].cmax = phaseMax;
+
         this.graph2.data[0].x = data.x;
         this.graph2.data[0].y = data.y;
         this.graph2.data[0].z = data.phase;
-        
-
-        // Opcional: agregar una transformación para fases o colores personalizados
+        this.graph2.data[0].surfacecolor = data.magnitude;
+        this.graph2.data[0].cmin = magMin;
+        this.graph2.data[0].cmax = magMax;
       },
       error: (error) => console.error('Error al obtener los datos', error),
     });
   }
+
   loadFunctionInfo() {
     this.apiService.getFunctionInfo(this.function).subscribe({
       next: (data: any) => {
@@ -202,7 +219,7 @@ export class VisualizationComponent implements OnInit {
           expression: data.expression,
           zeros: data.zeros || [],
           poles: data.poles || [],
-          notes: data.notes || 'Sin anotaciones.'
+          notes: data.notes || 'Sin anotaciones.',
         };
       },
       error: () => {
@@ -210,31 +227,20 @@ export class VisualizationComponent implements OnInit {
           expression: this.function,
           zeros: [],
           poles: [],
-          notes: 'No se pudo analizar la función.'
+          notes: 'No se pudo analizar la función.',
         };
-      }
+      },
     });
-    
   }
-  
+
   getRepresentationDescription(): string {
-    let viewMode: string = '';
-    if(this.showMagnitude)
-    {
-      viewMode = 'magnitude';
+    if (this.showMagnitude) {
+      return 'Muestra la distancia del valor complejo al origen (mod(z)).';
+    } else if (this.showPhase) {
+      return 'Muestra el ángulo del número complejo (arg(z)).';
+    } else if (this.show2D) {
+      return 'Representación de Re(z) frente a Im(z).';
     }
-    else if(this.showPhase)
-    {
-      viewMode = 'phase';
-    }else if(this.show2D)
-    {
-      viewMode = '2D';
-    }
-    switch(viewMode) {
-      case 'magnitude': return 'Muestra la distancia del valor complejo al origen (mod(z)).';
-      case 'phase': return 'Muestra el ángulo del número complejo (arg(z)).';
-      case '2D': return 'Representación de Re(z) frente a Im(z).';
-      default: return 'Desconocido.';
-    }
+    return 'Desconocido.';
   }
 }

@@ -50,11 +50,12 @@
     </div>
     <div class="text-container">
       <p>Esta es una representación de la función {{function}} en el plano complejo.</p>
-      <div class="button-text-container">
-        <a (click)="cambiaVisualizacion(1)" *ngIf="showMagnitude">Cambiar a visualización de la fase</a>
-        <a (click)="cambiaVisualizacion(2)" *ngIf="showPhase">Cambiar a visualización de la magnitud</a>
-        <a (click)="cambiaVisualizacion(3)" *ngIf="showPhase">Cambiar a visualización 2D</a>
+      <div class="button-container">
+        <button *ngIf="showMagnitude" (click)="cambiaVisualizacion(1)">Ver fase</button>
+        <button *ngIf="showPhase" (click)="cambiaVisualizacion(2)">Ver magnitud</button>
+        <button *ngIf="showPhase" (click)="cambiaVisualizacion(3)">Ver en 2D</button>
       </div>
+      
     </div>
   </div>
 </div>

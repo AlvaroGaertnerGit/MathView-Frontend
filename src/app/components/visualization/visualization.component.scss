@@ -88,6 +88,34 @@
     flex-direction: column;
     gap: 0.5rem;
   }
+  .button-container {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    margin: 1.5rem 0;
+    flex-wrap: wrap;
+  }
+  
+  .button-container button {
+    background-color: #343A40;
+    color: #ffffff;
+    border: none;
+    border-radius: 8px;
+    padding: 0.6rem 1.2rem;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+  }
+  
+  .button-container button:hover {
+    background-color: #495057;
+    transform: scale(1.05);
+  }
+  
+  .button-container button:active {
+    transform: scale(0.98);
+  }
   
   .function-button {
     background-color: var(--bg-secondary);
