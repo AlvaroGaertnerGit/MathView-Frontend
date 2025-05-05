@@ -48,12 +48,15 @@
     <div *ngIf="showPhase" class="plot-container">
       <plotly-plot [data]="graph2.data" [layout]="graph2.layout"></plotly-plot>
     </div>
+    <div *ngIf="show2D" class="plot-container">
+      <plotly-plot [data]="graph3.data" [layout]="graph3.layout"></plotly-plot>
+    </div>
     <div class="text-container">
       <p>Esta es una representación de la función {{function}} en el plano complejo.</p>
       <div class="button-container">
-        <button *ngIf="showMagnitude" (click)="cambiaVisualizacion(1)">Ver fase</button>
-        <button *ngIf="showPhase" (click)="cambiaVisualizacion(2)">Ver magnitud</button>
-        <button *ngIf="showPhase" (click)="cambiaVisualizacion(3)">Ver en 2D</button>
+        <button *ngIf="showMagnitude || show2D" (click)="cambiaVisualizacion(1)">Ver fase</button>
+        <button *ngIf="showPhase || show2D" (click)="cambiaVisualizacion(2)">Ver magnitud</button>
+        <button *ngIf="showPhase || showMagnitude" (click)="cambiaVisualizacion(3)">Ver en 2D</button>
       </div>
       
     </div>

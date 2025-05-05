@@ -118,6 +118,43 @@ export class VisualizationComponent implements OnInit {
     },
   };
 
+  graph3 = {
+    data: [
+      {
+        z: [], // Esta será la matriz de valores (por ejemplo, magnitud o fase)
+        x: [], // Eje x
+        y: [], // Eje y
+        type: 'heatmap',
+        colorscale: [
+          [0.0, 'rgb(255, 0, 0)'],
+          [0.17, 'rgb(255, 0, 255)'],
+          [0.33, 'rgb(0, 0, 255)'],
+          [0.5, 'rgb(0, 255, 255)'],
+          [0.67, 'rgb(0, 255, 0)'],
+          [0.83, 'rgb(255, 255, 0)'],
+          [1.0, 'rgb(255, 0, 0)'],
+        ],
+        colorbar: {
+          title: {
+            text: 'arg(f(z))',
+            font: { color: '#343A40', size: 14 },
+          },
+          tickfont: { color: '#343A40', size: 12 },
+        },
+      },
+    ],
+    layout: {
+      title: 'Plano Complejo 2D: arg(f(z))',
+      paper_bgcolor: '#dacfcf',
+      plot_bgcolor: '#495057',
+      xaxis: { title: 'Re (x)', color: '#343A40' },
+      yaxis: { title: 'Im (y)', color: '#343A40' },
+      autosize: true,
+      margin: { t: 30, r: 10, l: 10, b: 30 },
+    },
+  };
+  
+
   constructor(private apiService: ApiService, private router: Router) {}
 
   redirectToVisualizationZeta() {
@@ -164,6 +201,11 @@ export class VisualizationComponent implements OnInit {
         this.graph2.data[0].surfacecolor = data.magnitude;
         this.graph2.data[0].cmin = magMin;
         this.graph2.data[0].cmax = magMax;
+
+        // Graph2D
+        this.graph3.data[0].x = data.x;
+        this.graph3.data[0].y = data.y;
+        this.graph3.data[0].z = data.phase;
       },
       error: (error) => console.error('Error al obtener los datos', error),
     });
@@ -173,9 +215,11 @@ export class VisualizationComponent implements OnInit {
     if (num === 1) {
       this.showMagnitude = false;
       this.showPhase = true;
+      this.show2D = false;
     } else if (num === 2) {
       this.showMagnitude = true;
       this.showPhase = false;
+      this.show2D = false;
     } else if (num === 3) {
       this.showMagnitude = false;
       this.showPhase = false;
@@ -207,6 +251,12 @@ export class VisualizationComponent implements OnInit {
         this.graph2.data[0].surfacecolor = data.magnitude;
         this.graph2.data[0].cmin = magMin;
         this.graph2.data[0].cmax = magMax;
+
+
+        this.graph3.data[0].x = data.x;
+        this.graph3.data[0].y = data.y;
+        this.graph3.data[0].z = data.phase;
+
       },
       error: (error) => console.error('Error al obtener los datos', error),
     });
