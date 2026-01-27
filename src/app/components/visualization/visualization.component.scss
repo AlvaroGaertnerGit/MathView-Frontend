@@ -1,0 +1,422 @@
+/* ============================================
+   Visualization Component - Modern Design
+   ============================================ */
+
+/* Base Container */
+.container {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  background: var(--bg-primary);
+  padding: var(--spacing-lg);
+  gap: var(--spacing-lg);
+  animation: fadeIn 0.5s ease;
+}
+
+@media (min-width: 768px) {
+  .container {
+    flex-direction: row;
+    gap: var(--spacing-xl);
+  }
+}
+
+/* ============================================
+   Left Panel - Controls & Calculator
+   ============================================ */
+
+.left-panel {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-lg);
+  width: 100%;
+}
+
+@media (min-width: 768px) {
+  .left-panel {
+    width: 480px;
+    max-width: 42%;
+  }
+}
+
+/* Title Section */
+.title {
+  font-size: 2rem;
+  font-weight: 700;
+  background: var(--gradient-primary);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  margin-bottom: var(--spacing-sm);
+  letter-spacing: -0.02em;
+  animation: fadeInDown 0.6s ease;
+}
+
+/* Input Section */
+.input-section {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-sm);
+  padding: var(--spacing-lg);
+  background: var(--glass-bg);
+  backdrop-filter: blur(10px);
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-md);
+  animation: fadeInUp 0.6s ease;
+}
+
+.input-label {
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+/* ============================================
+   Navigation Buttons
+   ============================================ */
+
+.button-container,
+.button-login {
+  display: flex;
+  gap: var(--spacing-md);
+  flex-wrap: wrap;
+  justify-content: center;
+  margin: var(--spacing-md) 0;
+}
+
+.button-container button,
+.button-login button {
+  background: var(--gradient-primary);
+  color: white;
+  border: none;
+  border-radius: var(--radius-md);
+  padding: 0.75rem 1.5rem;
+  font-size: 0.95rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all var(--transition-base);
+  box-shadow: var(--shadow-md);
+  position: relative;
+  overflow: hidden;
+}
+
+.button-container button::before,
+.button-login button::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.2) 0%, transparent 100%);
+  opacity: 0;
+  transition: opacity var(--transition-base);
+}
+
+.button-container button:hover::before,
+.button-login button:hover::before {
+  opacity: 1;
+}
+
+.button-container button:hover,
+.button-login button:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-glow);
+}
+
+.button-container button:active,
+.button-login button:active {
+  transform: translateY(0);
+}
+
+/* ============================================
+   Right Panel - Visualization
+   ============================================ */
+
+.right-panel {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  gap: var(--spacing-lg);
+  min-height: 500px;
+}
+
+/* Header Actions */
+.header-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: var(--spacing-sm);
+  animation: fadeInDown 0.6s ease 0.2s both;
+}
+
+.action-button {
+  background: var(--bg-tertiary);
+  border: 1px solid var(--border-color);
+  color: var(--text-primary);
+  padding: 0.625rem 1rem;
+  border-radius: var(--radius-md);
+  font-size: 0.875rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all var(--transition-base);
+}
+
+.action-button:hover {
+  background: var(--bg-elevated);
+  border-color: var(--border-color-hover);
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-sm);
+}
+
+/* Graph Container */
+.graph-container {
+  background: var(--glass-bg);
+  backdrop-filter: blur(10px);
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius-xl);
+  padding: var(--spacing-xl);
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  box-shadow: var(--shadow-lg);
+  animation: fadeInUp 0.6s ease 0.3s both;
+  position: relative;
+}
+
+.plot-container {
+  flex: 1;
+  min-height: 350px;
+  max-height: 500px;
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  position: relative;
+}
+
+.graph-description {
+  font-size: 0.875rem;
+  color: var(--text-secondary);
+  margin-top: var(--spacing-md);
+  padding-top: var(--spacing-md);
+  border-top: 1px solid var(--divider-color);
+  line-height: 1.6;
+}
+
+.graph-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: var(--spacing-sm);
+  margin-top: var(--spacing-md);
+}
+
+.toggle-view-link {
+  color: var(--accent-primary);
+  cursor: pointer;
+  font-size: 0.875rem;
+  font-weight: 500;
+  text-decoration: none;
+  transition: all var(--transition-fast);
+  padding: 0.5rem 1rem;
+  border-radius: var(--radius-md);
+  background: rgba(99, 102, 241, 0.1);
+}
+
+.toggle-view-link:hover {
+  background: rgba(99, 102, 241, 0.2);
+  transform: translateY(-1px);
+  text-decoration: none;
+}
+
+/* ============================================
+   Info Icon & Modal
+   ============================================ */
+
+.info-icon {
+  position: fixed;
+  top: var(--spacing-xl);
+  right: var(--spacing-xl);
+  background: var(--gradient-primary);
+  color: white;
+  width: 48px;
+  height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--radius-full);
+  cursor: pointer;
+  box-shadow: var(--shadow-glow);
+  transition: all var(--transition-base);
+  z-index: 1001;
+  border: 2px solid rgba(255, 255, 255, 0.1);
+}
+
+.info-icon:hover {
+  transform: scale(1.1) rotate(15deg);
+  box-shadow: 0 0 30px rgba(99, 102, 241, 0.5);
+}
+
+.info-icon i {
+  font-size: 20px;
+}
+
+/* Modal Styles */
+.modal-backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(10, 14, 39, 0.85);
+  backdrop-filter: blur(8px);
+  z-index: 999;
+  animation: fadeIn 0.3s ease;
+}
+
+.modal {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 90%;
+  max-width: 600px;
+  max-height: 85vh;
+  overflow-y: auto;
+  background: var(--bg-secondary);
+  border: 1px solid var(--border-color);
+  padding: var(--spacing-2xl);
+  border-radius: var(--radius-xl);
+  z-index: 1000;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.6);
+  animation: scaleIn 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.modal-content h2 {
+  margin-top: 0;
+  color: var(--text-primary);
+  font-size: 1.75rem;
+  margin-bottom: var(--spacing-lg);
+  background: var(--gradient-primary);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.modal-content p,
+.modal-content ul {
+  color: var(--text-secondary);
+  line-height: 1.7;
+  margin-bottom: var(--spacing-md);
+}
+
+.modal-content ul {
+  padding-left: var(--spacing-lg);
+}
+
+.modal-content li {
+  margin-bottom: var(--spacing-sm);
+}
+
+/* Modal Buttons */
+.close-button,
+.next-button {
+  border: none;
+  padding: 0.75rem 1.5rem;
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 0.95rem;
+  transition: all var(--transition-base);
+  margin-top: var(--spacing-lg);
+}
+
+.close-button {
+  background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+  color: white;
+  box-shadow: 0 4px 12px rgba(239, 68, 68, 0.3);
+}
+
+.close-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(239, 68, 68, 0.4);
+}
+
+.next-button {
+  background: var(--gradient-primary);
+  color: white;
+  margin-left: var(--spacing-sm);
+  box-shadow: var(--shadow-md);
+}
+
+.next-button:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-glow);
+}
+
+/* ============================================
+   Plotly Customization
+   ============================================ */
+
+:host ::ng-deep .js-plotly-plot {
+  height: 100%;
+  background: transparent !important;
+}
+
+:host ::ng-deep .main-svg {
+  background: transparent !important;
+}
+
+:host ::ng-deep .plotly .modebar {
+  background: var(--bg-tertiary) !important;
+  border-radius: var(--radius-md);
+  padding: 4px;
+  box-shadow: var(--shadow-sm);
+}
+
+:host ::ng-deep .plotly .modebar-btn {
+  border-radius: var(--radius-sm);
+  transition: all var(--transition-fast);
+}
+
+:host ::ng-deep .plotly .modebar-btn:hover {
+  background: var(--bg-elevated) !important;
+}
+
+:host ::ng-deep .plotly .modebar-btn path {
+  fill: var(--text-secondary) !important;
+  transition: fill var(--transition-fast);
+}
+
+:host ::ng-deep .plotly .modebar-btn:hover path {
+  fill: var(--accent-primary) !important;
+}
+
+/* ============================================
+   Responsive Design
+   ============================================ */
+
+@media (max-width: 768px) {
+  .container {
+    padding: var(--spacing-md);
+  }
+
+  .left-panel {
+    max-width: 100%;
+  }
+
+  .title {
+    font-size: 1.75rem;
+  }
+
+  .modal {
+    width: 95%;
+    padding: var(--spacing-xl);
+  }
+
+  .info-icon {
+    top: var(--spacing-md);
+    right: var(--spacing-md);
+    width: 40px;
+    height: 40px;
+  }
+}

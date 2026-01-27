@@ -1,0 +1,299 @@
+/* ============================================
+   Mandelbrot Visualization - Modern Design
+   ============================================ */
+
+/* Container */
+.mandelbrot-container {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    background: var(--bg-primary);
+    padding: var(--spacing-lg);
+    gap: var(--spacing-lg);
+    animation: fadeIn 0.5s ease;
+}
+
+@media (min-width: 768px) {
+    .mandelbrot-container {
+        flex-direction: row;
+        gap: var(--spacing-xl);
+    }
+}
+
+/* ============================================
+   Control Panel
+   ============================================ */
+
+.controls-panel {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-lg);
+    width: 100%;
+    animation: fadeInUp 0.6s ease;
+}
+
+@media (min-width: 768px) {
+    .controls-panel {
+        width: 350px;
+        max-width: 30%;
+    }
+}
+
+/* Header */
+.mandelbrot-header {
+    background: var(--glass-bg);
+    backdrop-filter: blur(10px);
+    border: 1px solid var(--glass-border);
+    border-radius: var(--radius-xl);
+    padding: var(--spacing-xl);
+    box-shadow: var(--shadow-lg);
+}
+
+.mandelbrot-title {
+    font-size: 2rem;
+    font-weight: 700;
+    background: var(--gradient-primary);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin-bottom: var(--spacing-sm);
+    letter-spacing: -0.02em;
+}
+
+.mandelbrot-description {
+    color: var(--text-secondary);
+    line-height: 1.6;
+    font-size: 0.95rem;
+}
+
+/* Control Card */
+.control-card {
+    background: var(--glass-bg);
+    backdrop-filter: blur(10px);
+    border: 1px solid var(--glass-border);
+    border-radius: var(--radius-lg);
+    padding: var(--spacing-lg);
+    box-shadow: var(--shadow-md);
+}
+
+.control-card h3 {
+    font-size: 1.125rem;
+    color: var(--text-primary);
+    margin-bottom: var(--spacing-md);
+    font-weight: 600;
+}
+
+.control-group {
+    margin-bottom: var(--spacing-md);
+}
+
+.control-group:last-child {
+    margin-bottom: 0;
+}
+
+.control-label {
+    display: block;
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: var(--text-secondary);
+    margin-bottom: var(--spacing-sm);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.control-input {
+    width: 100%;
+    padding: 0.75rem 1rem;
+    background: var(--bg-tertiary);
+    border: 2px solid var(--border-color);
+    border-radius: var(--radius-md);
+    color: var(--text-primary);
+    font-size: 1rem;
+    transition: all var(--transition-base);
+}
+
+.control-input:focus {
+    outline: none;
+    border-color: var(--accent-primary);
+    box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.15);
+}
+
+.control-button {
+    width: 100%;
+    padding: 0.875rem 1.5rem;
+    background: var(--gradient-primary);
+    color: white;
+    border: none;
+    border-radius: var(--radius-md);
+    font-size: 0.95rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all var(--transition-base);
+    box-shadow: var(--shadow-md);
+    margin-top: var(--spacing-md);
+}
+
+.control-button:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-glow);
+}
+
+.control-button:active {
+    transform: translateY(0);
+}
+
+/* Info Box */
+.info-box {
+    background: rgba(99, 102, 241, 0.1);
+    border: 1px solid rgba(99, 102, 241, 0.3);
+    border-radius: var(--radius-md);
+    padding: var(--spacing-md);
+    margin-top: var(--spacing-lg);
+}
+
+.info-box p {
+    color: var(--text-secondary);
+    font-size: 0.875rem;
+    line-height: 1.6;
+    margin: 0;
+}
+
+/* ============================================
+   Visualization Panel
+   ============================================ */
+
+.visualization-panel {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    gap: var(--spacing-md);
+    min-height: 600px;
+}
+
+.visualization-container {
+    background: var(--glass-bg);
+    backdrop-filter: blur(10px);
+    border: 1px solid var(--glass-border);
+    border-radius: var(--radius-xl);
+    padding: var(--spacing-xl);
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    box-shadow: var(--shadow-lg);
+    animation: fadeInUp 0.6s ease 0.2s both;
+}
+
+.plot-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: var(--spacing-lg);
+    padding-bottom: var(--spacing-md);
+    border-bottom: 1px solid var(--divider-color);
+}
+
+.plot-title {
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: var(--text-primary);
+}
+
+.plot-actions {
+    display: flex;
+    gap: var(--spacing-sm);
+}
+
+.action-button {
+    padding: 0.5rem 1rem;
+    background: var(--bg-tertiary);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-md);
+    color: var(--text-primary);
+    font-size: 0.875rem;
+    cursor: pointer;
+    transition: all var(--transition-base);
+}
+
+.action-button:hover {
+    background: var(--bg-elevated);
+    border-color: var(--border-color-hover);
+    transform: translateY(-1px);
+}
+
+.plot-container {
+    flex: 1;
+    min-height: 500px;
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    position: relative;
+}
+
+.plot-footer {
+    margin-top: var(--spacing-lg);
+    padding-top: var(--spacing-md);
+    border-top: 1px solid var(--divider-color);
+}
+
+.plot-info {
+    color: var(--text-secondary);
+    font-size: 0.875rem;
+    line-height: 1.6;
+}
+
+/* ============================================
+   Loading State
+   ============================================ */
+
+.loading-overlay {
+    position: absolute;
+    inset: 0;
+    background: rgba(10, 14, 39, 0.8);
+    backdrop-filter: blur(4px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: var(--radius-lg);
+    z-index: 10;
+}
+
+.loading-content {
+    text-align: center;
+}
+
+.spinner {
+    width: 48px;
+    height: 48px;
+    border: 4px solid var(--border-color);
+    border-top-color: var(--accent-primary);
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+    margin: 0 auto var(--spacing-md);
+}
+
+.loading-text {
+    color: var(--text-primary);
+    font-size: 1rem;
+    font-weight: 500;
+}
+
+/* ============================================
+   Responsive Design
+   ============================================ */
+
+@media (max-width: 768px) {
+    .mandelbrot-container {
+        padding: var(--spacing-md);
+    }
+
+    .controls-panel {
+        max-width: 100%;
+    }
+
+    .mandelbrot-title {
+        font-size: 1.75rem;
+    }
+
+    .plot-container {
+        min-height: 400px;
+    }
+}

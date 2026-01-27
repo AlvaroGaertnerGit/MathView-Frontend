@@ -1,0 +1,21 @@
+<div class="container">
+  <!-- Sección Izquierda -->
+  <div class="left-panel">
+    <h1>Visualización 3D Zeta Riemann</h1>
+    <label for="functionInput">Introduce una función:</label>
+    <!-- <input id="functionInput" type="text" placeholder="Escribe tu función aquí" [(ngModel)]="functionInput" />
+    <button (click)="redirectToVisualizationZeta()">
+      Ir a Visualización Zeta
+    </button> -->
+  </div>
+
+  <!-- Sección Derecha -->
+  <div class="right-panel">
+    <div class="plot-container">
+      <plotly-plot [data]="graph.data" [layout]="graph.layout"></plotly-plot>
+    </div>
+    <div class="text-container">
+      <p>Esta es una representación de la función zeta de Riemann en el plano complejo.</p>
+    </div>
+  </div>
+</div>

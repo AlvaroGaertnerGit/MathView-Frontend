@@ -1,0 +1,113 @@
+<div class="container">
+  <div class="left-panel">
+    <h1 class="title">MathView</h1>
+    <label for="functionInput">Introduce una función:</label>
+    <app-calculator id="functionInput"></app-calculator>
+    <div class="funciones_especiales" *ngIf="true">
+      <div class="texto__especiales">
+        <h3>Funciones especiales</h3>
+      </div>
+      <div class="button-container">
+        <button (click)="redirectToVisualizationZeta()">
+          Ir a Visualización Zeta
+        </button>
+        <button (click)="redirectToVisualizationMandelbrot()">
+          Ir a Visualización Mandelbrot
+        </button>
+      </div>
+    </div>
+  </div>
+<div class="modal-overlay" *ngIf="functionInfo" (click)="functionInfo = null">
+  <div class="modal-content" (click)="$event.stopPropagation()">
+    <button class="close-btn" (click)="functionInfo = null">×</button>
+    <h3>Información relevante de la función</h3>
+    <p><strong>Función:</strong> {{ functionInfo.expression }}</p>
+    <p><strong>Polos:</strong> {{ functionInfo.poles.join(', ') || 'Ninguno' }}</p>
+    <p><strong>Ceros:</strong> {{ functionInfo.zeros.join(', ') || 'Ninguno' }}</p>
+    <p><strong>Notas:</strong> {{ functionInfo.notes }}</p>
+    <p><strong>Representación:</strong> {{ getRepresentationDescription() }}</p>
+  </div>
+</div>
+
+  <div class="right-panel">
+    <div class="button-login">
+        <button (click)="openModal()">¿Cómo funciona MathView?</button>
+        <button  (click)="goToLogin()">Ir a Login</button>
+    </div>
+    <div class="modal-backdrop" *ngIf="showModal" (click)="closeModal()"></div>
+    <div class="modal" *ngIf="showModal">
+      <div *ngIf="showModalPrin" class="modal-content" (click)="$event.stopPropagation()">
+        <h2>¿Qué es MathView?</h2>
+        <p><strong>MathView</strong> es una plataforma diseñada para facilitar la comprensión del análisis complejo mediante la visualización en 3D de funciones matemáticas. Permite explorar la magnitud y fase de funciones complejas de forma intuitiva.</p>
+        
+        <h3>Manual de usuario</h3>
+        <ul>
+          <li>Introduce una función compleja en el campo de entrada (ej: <code>z</code>, <code>1/z</code>, <code>exp(z)</code>).</li>
+          <li>Usa los botones para cambiar entre la visualización de magnitud, fase y vista 2D.</li>
+          <li>Puedes rotar, acercar y alejar el gráfico con el ratón.</li>
+          <li>También puedes descargar una imagen de la representación.</li>
+        </ul>
+        <h3>Funciones especiales</h3>
+        <ul>
+          <li>El apartado de funciones especiales representa funciones de especial interés para las matemáticas.</li>
+          <li>Puede ser que tarde un rato en cargar alguna visualización. ¡Disculpa las molestias!</li>
+        </ul>
+        <button class="close-button" (click)="closeModal()">Cerrar</button>
+        <button class="next-button" (click)="siguienteModal()">Sobre la representación</button>
+      </div>
+      <div *ngIf="showModalExp" class="modal-content" (click)="$event.stopPropagation()">
+        <h3>Tipos de visualización</h3>
+
+          <h4>Visualización por <strong>magnitud</strong></h4>
+          <p>
+            En este modo, la <strong>altura</strong> del gráfico representa la <em>magnitud</em> de la función compleja <code>|f(z)|</code>. El <strong>color</strong> indica la <em>fase</em> o argumento <code>arg(f(z))</code>.
+          </p>
+          <ul>
+            <li>Los <strong>ceros</strong> aparecen como puntos bajos (altura nula).</li>
+            <li>Las zonas donde la función <strong>tiende a infinito</strong> se elevan abruptamente.</li>
+            <li>Los <strong>cambios de color</strong> muestran variaciones en la fase.</li>
+          </ul>
+
+          <h4>Visualización por <strong>fase</strong></h4>
+          <p>
+            En este caso, la <strong>altura</strong> representa el <em>argumento</em> <code>arg(f(z))</code> de la función, mientras que el <strong>color</strong> muestra la <em>magnitud</em> <code>|f(z)|</code>.
+          </p>
+          <ul>
+            <li>Permite identificar <strong>saltos de fase</strong> o cambios angulares abruptos.</li>
+            <li>Se destacan <strong>singularidades</strong> y comportamientos rotacionales.</li>
+          </ul>
+
+          <h4>Visualización <strong>2D</strong></h4>
+          <p>
+            Esta vista proyecta la información sobre el plano complejo sin usar altura. Los <strong>colores</strong> indican la fase, y opcionalmente la magnitud mediante la intensidad del color.
+          </p>
+          <ul>
+            <li>Facilita una lectura rápida de <strong>ceros</strong>, <strong>polos</strong> y <strong>simetrías</strong>.</li>
+          </ul>
+          <h4>¡Y para más información!</h4>
+          <p>Podéis visitar la página en la que se ha basado el conocimiento para llevar a cabo esta herramienta.</p>
+          <p>El libro interactivo de <strong>Juan Carlos Ponce Campuzano</strong><a href="https://complex-analysis.com/">: <em>Complex Analysis</em></a></p>
+          <button class="close-button" (click)="closeModal()">Cerrar</button>
+          <button class="next-button" (click)="anteriorModal()">Anterior</button>
+      </div>
+    </div>
+
+    <div *ngIf="showMagnitude" class="plot-container">
+      <plotly-plot [data]="graph.data" [layout]="graph.layout"></plotly-plot>
+    </div>
+    <div *ngIf="showPhase" class="plot-container">
+      <plotly-plot [data]="graph2.data" [layout]="graph2.layout"></plotly-plot>
+    </div>
+    <div *ngIf="show2D" class="plot-container">
+      <plotly-plot [data]="graph3.data" [layout]="graph3.layout"></plotly-plot>
+    </div>
+    <div class="text-container">
+      <p>Esta es una representación de la función {{function}} en el plano complejo.</p>
+      <div class="button-container">
+        <button *ngIf="showMagnitude || show2D" (click)="cambiaVisualizacion(1)">Ver fase</button>
+        <button *ngIf="showPhase || show2D" (click)="cambiaVisualizacion(2)">Ver magnitud</button>
+        <button *ngIf="showPhase || showMagnitude" (click)="cambiaVisualizacion(3)">Ver en 2D</button>
+      </div>
+    </div>
+  </div>
+</div>

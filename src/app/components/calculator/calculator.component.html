@@ -1,0 +1,67 @@
+<div class="calculator">
+  <div class="input-container">
+    <input 
+      class="expression-input" 
+      type="text" 
+      [(ngModel)]="displayExpression" 
+      placeholder="f(x) = ..."
+    />
+    <button class="clear-button" (click)="clearInput()">
+      <i class="fa-solid fa-xmark"></i>
+    </button>
+  </div>
+  
+  <div class="tabs-container">
+    <button 
+      class="tab-button" 
+      (click)="setTab('numbers')" 
+      [class.active]="currentTab === 'numbers'"
+    >
+      123
+    </button>
+    <button 
+      class="tab-button" 
+      (click)="setTab('functions')" 
+      [class.active]="currentTab === 'functions'"
+    >
+      f(x)
+    </button>
+    <button 
+      class="tab-button" 
+      (click)="setTab('symbols')" 
+      [class.active]="currentTab === 'symbols'"
+    >
+      #&¬
+    </button>
+  </div>
+  
+  <div class="keypad" *ngIf="currentTab === 'numbers'">
+    <button 
+      class="keypad-button" 
+      *ngFor="let num of numbers" 
+      (click)="addSymbol(num.symbol)"
+    >
+      {{ num.display }}
+    </button>
+  </div>
+  
+  <div class="keypad" *ngIf="currentTab === 'functions'">
+    <button 
+      class="keypad-button" 
+      *ngFor="let func of functions" 
+      (click)="addSymbol(func.symbol)"
+    >
+      {{ func.display }}
+    </button>
+  </div>
+  
+  <div class="keypad" *ngIf="currentTab === 'symbols'">
+    <button 
+      class="keypad-button" 
+      *ngFor="let sym of symbols" 
+      (click)="addSymbol(sym)"
+    >
+      {{ sym }}
+    </button>
+  </div>
+</div>

@@ -1,0 +1,344 @@
+/* ============================================
+   Zeta Function Visualization - Modern Design
+   ============================================ */
+
+/* Container */
+.zeta-container {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    background: var(--bg-primary);
+    padding: var(--spacing-lg);
+    gap: var(--spacing-lg);
+    animation: fadeIn 0.5s ease;
+}
+
+@media (min-width: 768px) {
+    .zeta-container {
+        flex-direction: row;
+        gap: var(--spacing-xl);
+    }
+}
+
+/* ============================================
+   Information Panel
+   ============================================ */
+
+.info-panel {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-lg);
+    width: 100%;
+    animation: fadeInUp 0.6s ease;
+}
+
+@media (min-width: 768px) {
+    .info-panel {
+        width: 380px;
+        max-width: 32%;
+    }
+}
+
+/* Header Card */
+.zeta-header {
+    background: var(--glass-bg);
+    backdrop-filter: blur(10px);
+    border: 1px solid var(--glass-border);
+    border-radius: var(--radius-xl);
+    padding: var(--spacing-xl);
+    box-shadow: var(--shadow-lg);
+}
+
+.zeta-title {
+    font-size: 2rem;
+    font-weight: 700;
+    background: var(--gradient-accent);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin-bottom: var(--spacing-sm);
+    letter-spacing: -0.02em;
+}
+
+.zeta-subtitle {
+    color: var(--text-secondary);
+    font-size: 1.125rem;
+    margin-bottom: var(--spacing-md);
+    font-weight: 500;
+}
+
+.zeta-description {
+    color: var(--text-secondary);
+    line-height: 1.7;
+    font-size: 0.95rem;
+}
+
+/* Information Cards */
+.info-card {
+    background: var(--glass-bg);
+    backdrop-filter: blur(10px);
+    border: 1px solid var(--glass-border);
+    border-radius: var(--radius-lg);
+    padding: var(--spacing-lg);
+    box-shadow: var(--shadow-md);
+}
+
+.info-card h3 {
+    font-size: 1.125rem;
+    color: var(--text-primary);
+    margin-bottom: var(--spacing-md);
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-sm);
+}
+
+.info-card h3::before {
+    content: '';
+    width: 4px;
+    height: 1.125rem;
+    background: var(--gradient-accent);
+    border-radius: 2px;
+}
+
+.info-section {
+    margin-bottom: var(--spacing-md);
+}
+
+.info-section:last-child {
+    margin-bottom: 0;
+}
+
+.info-section-title {
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: var(--accent-teal);
+    margin-bottom: var(--spacing-sm);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.info-section p {
+    color: var(--text-secondary);
+    font-size: 0.925rem;
+    line-height: 1.6;
+    margin: 0;
+}
+
+.info-section ul {
+    margin: var(--spacing-sm) 0;
+    padding-left: var(--spacing-lg);
+    color: var(--text-secondary);
+}
+
+.info-section li {
+    margin-bottom: var(--spacing-xs);
+    line-height: 1.6;
+}
+
+/* Formula Display */
+.formula-box {
+    background: var(--bg-tertiary);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-md);
+    padding: var(--spacing-md);
+    margin: var(--spacing-md) 0;
+    font-family: var(--font-mono);
+    font-size: 1.125rem;
+    color: var(--accent-teal);
+    text-align: center;
+    overflow-x: auto;
+}
+
+/* Highlight Box */
+.highlight-box {
+    background: linear-gradient(135deg, rgba(20, 184, 166, 0.1) 0%, rgba(6, 182, 212, 0.1) 100%);
+    border-left: 4px solid var(--accent-teal);
+    border-radius: var(--radius-md);
+    padding: var(--spacing-md);
+    margin: var(--spacing-md) 0;
+}
+
+.highlight-box p {
+    color: var(--text-primary);
+    font-size: 0.925rem;
+    line-height: 1.6;
+    margin: 0;
+}
+
+/* ============================================
+   Visualization Panel
+   ============================================ */
+
+.visualization-panel {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    gap: var(--spacing-md);
+    min-height: 600px;
+}
+
+.visualization-container {
+    background: var(--glass-bg);
+    backdrop-filter: blur(10px);
+    border: 1px solid var(--glass-border);
+    border-radius: var(--radius-xl);
+    padding: var(--spacing-xl);
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    box-shadow: var(--shadow-lg);
+    animation: fadeInUp 0.6s ease 0.2s both;
+}
+
+/* Plot Header */
+.plot-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: var(--spacing-lg);
+    padding-bottom: var(--spacing-md);
+    border-bottom: 1px solid var(--divider-color);
+}
+
+.plot-title {
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: var(--text-primary);
+}
+
+.plot-controls {
+    display: flex;
+    gap: var(--spacing-sm);
+}
+
+.control-button {
+    padding: 0.5rem 1rem;
+    background: var(--bg-tertiary);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-md);
+    color: var(--text-primary);
+    font-size: 0.875rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all var(--transition-base);
+}
+
+.control-button:hover {
+    background: var(--bg-elevated);
+    border-color: var(--border-color-hover);
+    transform: translateY(-1px);
+    box-shadow: var(--shadow-sm);
+}
+
+.control-button.active {
+    background: var(--gradient-accent);
+    border-color: transparent;
+    color: white;
+}
+
+/* Plot Container */
+.plot-container {
+    flex: 1;
+    min-height: 500px;
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    position: relative;
+    background: var(--bg-secondary);
+}
+
+/* Legend */
+.plot-legend {
+    margin-top: var(--spacing-lg);
+    padding-top: var(--spacing-md);
+    border-top: 1px solid var(--divider-color);
+}
+
+.legend-title {
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: var(--text-secondary);
+    margin-bottom: var(--spacing-sm);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.legend-items {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: var(--spacing-sm);
+}
+
+.legend-item {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-sm);
+    padding: var(--spacing-sm);
+    background: var(--bg-tertiary);
+    border-radius: var(--radius-sm);
+}
+
+.legend-color {
+    width: 20px;
+    height: 20px;
+    border-radius: 4px;
+    box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.1);
+}
+
+.legend-label {
+    font-size: 0.875rem;
+    color: var(--text-secondary);
+}
+
+/* ============================================
+   Back Navigation
+   ============================================ */
+
+.back-button {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--spacing-sm);
+    padding: 0.75rem 1.25rem;
+    background: var(--bg-tertiary);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-md);
+    color: var(--text-primary);
+    font-size: 0.95rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all var(--transition-base);
+    text-decoration: none;
+    margin-bottom: var(--spacing-lg);
+}
+
+.back-button:hover {
+    background: var(--bg-elevated);
+    border-color: var(--border-color-hover);
+    transform: translateX(-4px);
+}
+
+/* ============================================
+   Responsive Design
+   ============================================ */
+
+@media (max-width: 768px) {
+    .zeta-container {
+        padding: var(--spacing-md);
+    }
+
+    .info-panel {
+        max-width: 100%;
+    }
+
+    .zeta-title {
+        font-size: 1.75rem;
+    }
+
+    .plot-container {
+        min-height: 400px;
+    }
+
+    .legend-items {
+        grid-template-columns: 1fr;
+    }
+}
