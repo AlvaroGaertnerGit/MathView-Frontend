@@ -1,0 +1,115 @@
+{
+ "date": "2026-10-15T14:36:38.840Z",
+ "results": [
+  {
+   "name": "Carga inicial: superficie de f(z) = z",
+   "ok": true,
+   "detail": "surface:100x100:0.6670"
+  },
+  {
+   "name": "Escribir una función y pulsar Intro la representa",
+   "ok": true,
+   "detail": "surface:100x100:0.3854"
+  },
+  {
+   "name": "La cabecera muestra la función",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "name": "El teclado escribe 1÷𝑧 y «Representar» la dibuja",
+   "ok": true,
+   "detail": "1/𝑧 → surface:100x100:1.4993"
+  },
+  {
+   "name": "Un ejemplo (sen z) llena el editor y representa",
+   "ok": true,
+   "detail": "surface:100x100:0.6187"
+  },
+  {
+   "name": "Modo Fase: figura surface y botón marcado",
+   "ok": true,
+   "detail": "surface:100x100:3.1159"
+  },
+  {
+   "name": "Modo 2D: figura heatmap y botón marcado",
+   "ok": true,
+   "detail": "heatmap:100x100:3.1159"
+  },
+  {
+   "name": "Modo Magnitud: figura surface y botón marcado",
+   "ok": true,
+   "detail": "surface:100x100:0.6187"
+  },
+  {
+   "name": "Ceros y polos: ceros −1, 1 y polos ±I",
+   "ok": true,
+   "detail": "ANÁLISIS DE LA FUNCIÓN f(z) = (z^2-1)/(z^2+1) CEROS -1, 1 POLOS I, -I NOTAS Tiene 2 singularidades (polos). ESTA VISTA M"
+  },
+  {
+   "name": "Esc cierra el diálogo",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "name": "La guía pasa a la página 2",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "name": "Una expresión que la API rechaza muestra un error legible",
+   "ok": true,
+   "detail": "No se ha podido representar la función. La API respondió: Error evaluating function: 'int' object has no attribute 'arctan2'"
+  },
+  {
+   "name": "Enlace directo /visualizationzeta",
+   "ok": true,
+   "detail": "200 · La función zeta de Riemann"
+  },
+  {
+   "name": "Enlace directo /visualizationMandelbrot",
+   "ok": true,
+   "detail": "200 · El conjunto de Mandelbrot"
+  },
+  {
+   "name": "Enlace directo /login",
+   "ok": true,
+   "detail": "200 · Acceder"
+  },
+  {
+   "name": "Zeta: superficie 100×100 calculada por la API",
+   "ok": true,
+   "detail": "surface:100x100:0.8977"
+  },
+  {
+   "name": "Mandelbrot: d = 3 da otro conjunto que d = 2",
+   "ok": true,
+   "detail": "surface:500x500:100.0000 → surface:500x500:4.0000"
+  },
+  {
+   "name": "Mandelbrot: la fórmula muestra z^3",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "name": "El primer Tab llega a «Saltar al contenido»",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "name": "Móvil: sin scroll horizontal",
+   "ok": true,
+   "detail": "390/390"
+  },
+  {
+   "name": "Móvil: la figura aparece antes que el editor",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "name": "Consola sin errores inesperados",
+   "ok": true,
+   "detail": ""
+  }
+ ]
+}

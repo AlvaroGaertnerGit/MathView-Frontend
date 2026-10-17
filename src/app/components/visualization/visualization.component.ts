@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, HostListener, OnInit, ViewChild } from '@angular/core';
 import { PlotlyModule } from 'angular-plotly.js';
 import * as PlotlyJS from 'plotly.js-dist-min';
 import { ApiService } from '../../services/api.service';
@@ -6,8 +6,19 @@ import { Router } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { CalculatorComponent } from '../calculator/calculator.component';
+import { PHASE_SCALE, PLOT_CONFIG, colorbar, layout2d, layout3d } from '../../shared/plot-theme';
 
 PlotlyModule.plotlyjs = PlotlyJS;
+
+/** Functions that the API evaluates (checked against calculateFunctionParam). */
+const EXAMPLES = [
+  { expr: 'z', label: 'z', note: 'la identidad' },
+  { expr: '1/z', label: '1/z', note: 'un polo en 0' },
+  { expr: '(z^2-1)/(z^2+1)', label: '(z²−1)/(z²+1)', note: 'ceros ±1, polos ±i' },
+  { expr: 'z^3-1', label: 'z³−1', note: 'tres raíces' },
+  { expr: 'sin(z)', label: 'sen z', note: 'periódica' },
+  { expr: 'exp(z)', label: 'eᶻ', note: 'sin ceros' },
+];
 
 @Component({
   standalone: true,
@@ -17,6 +28,8 @@ PlotlyModule.plotlyjs = PlotlyJS;
   imports: [CommonModule, FormsModule, PlotlyModule, CalculatorComponent],
 })
 export class VisualizationComponent implements OnInit {
+  @ViewChild(CalculatorComponent) calculator?: CalculatorComponent;
+
   functionInput: string = '';
   function: string = 'z';
   showMagnitude = true;
@@ -25,6 +38,11 @@ export class VisualizationComponent implements OnInit {
   showModal: boolean = false;
   showModalPrin: boolean = false;
   showModalExp: boolean = false;
+  loading = false;
+  error: string | null = null;
+  readonly examples = EXAMPLES;
+  readonly plotConfig = PLOT_CONFIG;
+  readonly plotStyle = { position: 'relative', width: '100%', height: '100%' };
   functionInfo: {
     expression: string;
     zeros: string[];
@@ -32,6 +50,7 @@ export class VisualizationComponent implements OnInit {
     notes: string;
   } | null = null;
 
+  // Height |f(z)|, colour arg f(z)
   graph = {
     data: [
       {
@@ -40,42 +59,18 @@ export class VisualizationComponent implements OnInit {
         y: [],
         surfacecolor: [],
         type: 'surface',
-        colorscale: [
-          [0.0, 'rgb(255, 0, 0)'],
-          [0.17, 'rgb(255, 0, 255)'],
-          [0.33, 'rgb(0, 0, 255)'],
-          [0.5, 'rgb(0, 255, 255)'],
-          [0.67, 'rgb(0, 255, 0)'],
-          [0.83, 'rgb(255, 255, 0)'],
-          [1.0, 'rgb(255, 0, 0)'],
-        ],
+        colorscale: PHASE_SCALE,
         cmin: -Math.PI,
         cmax: Math.PI,
-        colorbar: {
-          bgcolor: '#0A0E27',
-          tickcolor: '#343A40',
-          title: {
-            text: 'Fase arg(f(z))',
-            font: { color: '#343A40', size: 14 },
-          },
-          tickfont: { color: '#ffffff', size: 12 },
-        },
+        colorbar: colorbar('arg f(z)'),
+        contours: { z: { show: false } },
+        lighting: { ambient: 0.75, diffuse: 0.6, specular: 0.15, roughness: 0.6 },
       },
     ],
-    layout: {
-      title: 'Plano Complejo (Altura: |f(z)|, Color: arg(f(z)))',
-      autosize: true,
-      paper_bgcolor: '#0A0E27',
-      plot_bgcolor: '#495057',
-      scene: {
-        xaxis: { title: 'Re (x)', range: [-2, 2], color: '#343A40' },
-        yaxis: { title: 'Im (y)', range: [-2, 2], color: '#343A40' },
-        zaxis: { title: '|f(z)|', color: '#343A40' },
-      },
-      margin: { t: 0, r: 0, l: 0, b: 0 },
-    },
+    layout: layout3d({ x: 'Re z', y: 'Im z', z: '|f(z)|', xr: [-2, 2], yr: [-2, 2] }),
   };
 
+  // Height arg f(z), colour |f(z)|
   graph2 = {
     data: [
       {
@@ -84,78 +79,30 @@ export class VisualizationComponent implements OnInit {
         y: [],
         surfacecolor: [],
         type: 'surface',
-        colorscale: [
-          [0.0, 'rgb(255, 0, 0)'],
-          [0.17, 'rgb(255, 0, 255)'],
-          [0.33, 'rgb(0, 0, 255)'],
-          [0.5, 'rgb(0, 255, 255)'],
-          [0.67, 'rgb(0, 255, 0)'],
-          [0.83, 'rgb(255, 255, 0)'],
-          [1.0, 'rgb(255, 0, 0)'],
-        ],
+        colorscale: PHASE_SCALE,
         cmin: 0,
         cmax: 1,
-        colorbar: {
-          bgcolor: '#0A0E27',
-          tickcolor: '#343A40',
-          title: {
-            text: 'Magnitud |f(z)|',
-            font: { color: '#343A40', size: 14 },
-          },
-          tickfont: { color: '#ffffff', size: 12 },
-        },
+        colorbar: colorbar('|f(z)|'),
+        lighting: { ambient: 0.75, diffuse: 0.6, specular: 0.15, roughness: 0.6 },
       },
     ],
-    layout: {
-      title: 'Plano Complejo (Altura: arg(f(z)), Color: |f(z)|)',
-      autosize: true,
-      paper_bgcolor: '#0A0E27',
-      plot_bgcolor: '#495057',
-      scene: {
-        xaxis: { title: 'Re (x)', range: [-2, 2], color: '#343A40' },
-        yaxis: { title: 'Im (y)', range: [-2, 2], color: '#343A40' },
-        zaxis: { title: 'arg(f(z))', color: '#343A40' },
-      },
-      margin: { t: 0, r: 0, l: 0, b: 0 },
-    },
+    layout: layout3d({ x: 'Re z', y: 'Im z', z: 'arg f(z)', xr: [-2, 2], yr: [-2, 2] }),
   };
 
+  // The plane seen from above, colour arg f(z)
   graph3 = {
     data: [
       {
-        z: [], // Esta será la matriz de valores (por ejemplo, magnitud o fase)
-        x: [], // Eje x
-        y: [], // Eje y
+        z: [],
+        x: [],
+        y: [],
         type: 'heatmap',
-        colorscale: [
-          [0.0, 'rgb(255, 0, 0)'],
-          [0.17, 'rgb(255, 0, 255)'],
-          [0.33, 'rgb(0, 0, 255)'],
-          [0.5, 'rgb(0, 255, 255)'],
-          [0.67, 'rgb(0, 255, 0)'],
-          [0.83, 'rgb(255, 255, 0)'],
-          [1.0, 'rgb(255, 0, 0)'],
-        ],
-        colorbar: {
-          title: {
-            text: 'arg(f(z))',
-            font: { color: '#343A40', size: 14 },
-          },
-          tickfont: { color: '#343A40', size: 12 },
-        },
+        colorscale: PHASE_SCALE,
+        colorbar: colorbar('arg f(z)'),
       },
     ],
-    layout: {
-      title: 'Plano Complejo 2D: arg(f(z))',
-      paper_bgcolor: '#0A0E27',
-      plot_bgcolor: '#495057',
-      xaxis: { title: 'Re (x)', color: '#343A40' },
-      yaxis: { title: 'Im (y)', color: '#343A40' },
-      autosize: true,
-      margin: { t: 30, r: 10, l: 10, b: 30 },
-    },
+    layout: layout2d('Re z', 'Im z'),
   };
-
 
   constructor(private apiService: ApiService, private router: Router) { }
 
@@ -175,42 +122,70 @@ export class VisualizationComponent implements OnInit {
     return input.replace(/\s+/g, '').replace(/%2B/g, '+');
   }
 
+  /** An example fills the editor too, so it can be edited from there. */
+  useExample(expr: string) {
+    if (this.calculator) {
+      this.calculator.displayExpression = expr;
+      this.calculator.functionInput = expr;
+    }
+    this.sendFunction(expr);
+  }
+
   sendFunction(functionInput: string) {
+    if (!functionInput.trim()) return;
     this.function = functionInput;
     functionInput = this.limpiarCadena(functionInput);
+    this.loading = true;
+    this.error = null;
     this.apiService.calculateFunction(functionInput).subscribe({
       next: (data) => {
-        const mag = data.magnitude.flat();
-        const phase = data.phase.flat();
-
-        const magMin = Math.min(...mag);
-        const magMax = Math.max(...mag);
-        const phaseMin = Math.min(...phase);
-        const phaseMax = Math.max(...phase);
-
-        // Graph
-        this.graph.data[0].x = data.x;
-        this.graph.data[0].y = data.y;
-        this.graph.data[0].z = data.magnitude;
-        this.graph.data[0].surfacecolor = data.phase;
-        this.graph.data[0].cmin = phaseMin;
-        this.graph.data[0].cmax = phaseMax;
-
-        // Graph2
-        this.graph2.data[0].x = data.x;
-        this.graph2.data[0].y = data.y;
-        this.graph2.data[0].z = data.phase;
-        this.graph2.data[0].surfacecolor = data.magnitude;
-        this.graph2.data[0].cmin = magMin;
-        this.graph2.data[0].cmax = magMax;
-
-        // Graph2D
-        this.graph3.data[0].x = data.x;
-        this.graph3.data[0].y = data.y;
-        this.graph3.data[0].z = data.phase;
+        this.applyData(data);
+        this.loading = false;
       },
-      error: (error) => console.error('Error al obtener los datos', error),
+      error: (error) => {
+        console.error('Error al obtener los datos', error);
+        this.loading = false;
+        this.error = this.describeError(error);
+      },
     });
+  }
+
+  /** Same mapping as before: the API's grid, magnitude and phase into the three figures. */
+  private applyData(data: any) {
+    const mag = data.magnitude.flat();
+    const phase = data.phase.flat();
+
+    const magMin = Math.min(...mag);
+    const magMax = Math.max(...mag);
+    const phaseMin = Math.min(...phase);
+    const phaseMax = Math.max(...phase);
+
+    // Graph
+    this.graph.data[0].x = data.x;
+    this.graph.data[0].y = data.y;
+    this.graph.data[0].z = data.magnitude;
+    this.graph.data[0].surfacecolor = data.phase;
+    this.graph.data[0].cmin = phaseMin;
+    this.graph.data[0].cmax = phaseMax;
+
+    // Graph2
+    this.graph2.data[0].x = data.x;
+    this.graph2.data[0].y = data.y;
+    this.graph2.data[0].z = data.phase;
+    this.graph2.data[0].surfacecolor = data.magnitude;
+    this.graph2.data[0].cmin = magMin;
+    this.graph2.data[0].cmax = magMax;
+
+    // Graph2D
+    this.graph3.data[0].x = data.x;
+    this.graph3.data[0].y = data.y;
+    this.graph3.data[0].z = data.phase;
+  }
+
+  private describeError(error: any): string {
+    if (error?.status === 0) return 'No hay conexión con la API de MathView. Comprueba que el servidor está en marcha.';
+    const detail = error?.error?.error;
+    return detail ? `La API respondió: ${detail}` : 'Revisa la expresión e inténtalo de nuevo.';
   }
 
   cambiaVisualizacion(num: number) {
@@ -229,38 +204,24 @@ export class VisualizationComponent implements OnInit {
     }
   }
 
+  modeTitle(): string {
+    if (this.showPhase) return 'Fase en altura';
+    if (this.show2D) return 'Vista 2D';
+    return 'Magnitud en altura';
+  }
+
   ngOnInit(): void {
+    this.loading = true;
     this.apiService.getData('calculateFunction').subscribe({
       next: (data) => {
-        const mag = data.magnitude.flat();
-        const phase = data.phase.flat();
-
-        const magMin = Math.min(...mag);
-        const magMax = Math.max(...mag);
-        const phaseMin = Math.min(...phase);
-        const phaseMax = Math.max(...phase);
-
-        this.graph.data[0].x = data.x;
-        this.graph.data[0].y = data.y;
-        this.graph.data[0].z = data.magnitude;
-        this.graph.data[0].surfacecolor = data.phase;
-        this.graph.data[0].cmin = phaseMin;
-        this.graph.data[0].cmax = phaseMax;
-
-        this.graph2.data[0].x = data.x;
-        this.graph2.data[0].y = data.y;
-        this.graph2.data[0].z = data.phase;
-        this.graph2.data[0].surfacecolor = data.magnitude;
-        this.graph2.data[0].cmin = magMin;
-        this.graph2.data[0].cmax = magMax;
-
-
-        this.graph3.data[0].x = data.x;
-        this.graph3.data[0].y = data.y;
-        this.graph3.data[0].z = data.phase;
-
+        this.applyData(data);
+        this.loading = false;
       },
-      error: (error) => console.error('Error al obtener los datos', error),
+      error: (error) => {
+        console.error('Error al obtener los datos', error);
+        this.loading = false;
+        this.error = this.describeError(error);
+      },
     });
   }
 
@@ -295,6 +256,14 @@ export class VisualizationComponent implements OnInit {
     }
     return 'Desconocido.';
   }
+
+  /** Esc closes whichever dialog is open. */
+  @HostListener('document:keydown.escape')
+  closeDialogs() {
+    this.functionInfo = null;
+    if (this.showModal) this.closeModal();
+  }
+
   openModal() {
     this.showModal = true;
     this.showModalPrin = true;
@@ -304,6 +273,7 @@ export class VisualizationComponent implements OnInit {
   closeModal() {
     this.showModal = false;
     this.showModalPrin = false;
+    this.showModalExp = false;
   }
   siguienteModal() {
     this.showModalExp = true;

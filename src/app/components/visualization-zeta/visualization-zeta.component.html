@@ -1,21 +1,27 @@
-<div class="container">
-  <!-- Sección Izquierda -->
-  <div class="left-panel">
-    <h1>Visualización 3D Zeta Riemann</h1>
-    <label for="functionInput">Introduce una función:</label>
-    <!-- <input id="functionInput" type="text" placeholder="Escribe tu función aquí" [(ngModel)]="functionInput" />
-    <button (click)="redirectToVisualizationZeta()">
-      Ir a Visualización Zeta
-    </button> -->
-  </div>
+<section class="special-view">
+  <aside class="about">
+    <a class="back" routerLink="/">← Plano complejo</a>
+    <p class="eyebrow">Función especial</p>
+    <h1 class="title">La función <em>zeta</em> de Riemann</h1>
+    <p class="lede">La superficie es el módulo |ζ(s)| en la banda crítica, 0 ≤ Re s ≤ 1. Los puntos donde toca el suelo son sus ceros no triviales.</p>
+    <dl class="facts">
+      <div><dt>Dominio</dt><dd class="mono">Re s ∈ [0, 1] · Im s ∈ [−30, 30]</dd></div>
+      <div><dt>Rejilla</dt><dd class="mono">100 × 100 puntos</dd></div>
+      <div><dt>Cálculo</dt><dd>SymPy (con mpmath), en la API de MathView</dd></div>
+      <div><dt>Altura</dt><dd>|ζ(s)|; el eje llega hasta 5</dd></div>
+    </dl>
+    <p class="note">Evaluar la zeta en 10 000 puntos lleva unos segundos.</p>
+  </aside>
 
-  <!-- Sección Derecha -->
-  <div class="right-panel">
-    <div class="plot-container">
-      <plotly-plot [data]="graph.data" [layout]="graph.layout"></plotly-plot>
-    </div>
-    <div class="text-container">
-      <p>Esta es una representación de la función zeta de Riemann en el plano complejo.</p>
-    </div>
+  <div class="stage" [attr.aria-busy]="loading">
+    @if (!loading && !error) {
+      <div class="plot"><plotly-plot [data]="graph.data" [layout]="graph.layout" [config]="plotConfig" [useResizeHandler]="true" [style]="plotStyle"></plotly-plot></div>
+    }
+    @if (loading) {
+      <div class="state" role="status"><div class="spinner"></div><span>Calculando ζ(s) en la banda crítica…</span></div>
+    }
+    @if (error) {
+      <div class="state error" role="alert"><b>No se ha podido cargar la visualización.</b><span>{{ error }}</span></div>
+    }
   </div>
-</div>
+</section>

@@ -1,22 +1,29 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { PlotlyModule } from 'angular-plotly.js';
-import * as PlotlyJS from 'plotly.js-dist-min';
-import { ApiService } from '../../services/api.service';
-import { Router } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { VisualizationComponent } from '../visualization/visualization.component';
-import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 
 @Component({
   selector: 'app-calculator',
-  imports: [CommonModule, FormsModule, PlotlyModule, FontAwesomeModule],
+  imports: [CommonModule, FormsModule],
   templateUrl: './calculator.component.html',
   styleUrl: './calculator.component.scss',
   standalone: true
 })
 export class CalculatorComponent {
-  constructor(private apiService: ApiService, private visualComponent: VisualizationComponent, private router: Router) { }
+  constructor(private visualComponent: VisualizationComponent) { }
+
+  /** Names read by assistive tech for keys whose glyph is not self-explanatory. */
+  readonly keyLabels: Record<string, string> = {
+    '·': 'Multiplicar', '/': 'Dividir', '⌫': 'Borrar', '↵': 'Representar',
+    '∫': 'Integral', '∂': 'Derivada parcial', 'Γ': 'Función gamma',
+    '𝑥': 'x', '𝑦': 'y', '𝑧': 'z', '𝜋': 'pi', '𝑒': 'e',
+  };
+  readonly tabs = [
+    { id: 'numbers', label: 'Números' },
+    { id: 'functions', label: 'Funciones' },
+    { id: 'symbols', label: 'Símbolos' },
+  ];
 
   functionInput: string = '';
   displayExpression: string = '';
@@ -29,7 +36,7 @@ export class CalculatorComponent {
     { symbol: '8', display: '8' },
     { symbol: '9', display: '9' },
     { symbol: '·', display: '·' },
-    { symbol: '÷', display: '/' },
+    { symbol: '/', display: '/' }, // was '÷', which the API cannot parse (400); '/' is what it reads
 
     // Segunda fila: 4, 5, 6, +, -
     { symbol: '4', display: '4' },

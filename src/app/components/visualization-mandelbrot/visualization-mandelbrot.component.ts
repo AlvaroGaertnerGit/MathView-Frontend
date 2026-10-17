@@ -1,23 +1,30 @@
 import { Component, OnInit } from '@angular/core';
+import { FormsModule } from '@angular/forms';
+import { RouterLink } from '@angular/router';
 import { PlotlyModule } from 'angular-plotly.js';
 import * as PlotlyJS from 'plotly.js-dist-min';
 import { ApiService } from '../../services/api.service';
-import { Router } from '@angular/router';
-import { FormsModule } from '@angular/forms';
-import { CommonModule } from '@angular/common';
-import { expand } from 'rxjs';
+import { PLOT_CONFIG, colorbar, layout3d } from '../../shared/plot-theme';
 
 PlotlyModule.plotlyjs = PlotlyJS;
-
 
 @Component({
   standalone: true,
   selector: 'app-visualization-mandelbrot',
-  imports: [PlotlyModule],
+  imports: [PlotlyModule, FormsModule, RouterLink],
   templateUrl: './visualization-mandelbrot.component.html',
   styleUrl: './visualization-mandelbrot.component.scss'
 })
 export class VisualizationMandelbrotComponent implements OnInit {
+  /** Exponent d in z ↦ z^d + c. The original asked the API for 5 under the wrong
+   *  parameter name, so it always drew d = 2; 2 stays the default, now editable. */
+  exponent = 2;
+  shownExponent = 2;
+  loading = true;
+  error: string | null = null;
+  readonly plotConfig = PLOT_CONFIG;
+  readonly plotStyle = { position: 'relative', width: '100%', height: '100%' };
+
   graph = {
     data: [
       {
@@ -26,54 +33,43 @@ export class VisualizationMandelbrotComponent implements OnInit {
         y: [], // Ejes imaginarios
         type: 'surface', // Representación en 3D
         colorscale: 'Viridis', // Escala de colores más eficiente
-        colorbar: {
-          bgcolor: '#0A0E27',
-          tickcolor: '#343A40',
-          title: {
-            text: 'Iteraciones',
-            font: {
-              color: '#343A40',
-              size: 14
-            }
-          },
-          tickfont: {
-            color: '#ffffff',
-            size: 12
-          }
-        },
+        colorbar: colorbar('Iteraciones'),
         zmin: 0, // Número mínimo de iteraciones
         zmax: 100, // Número máximo de iteraciones
+        lighting: { ambient: 0.8, diffuse: 0.55, specular: 0.1, roughness: 0.7 },
       },
     ],
-    layout: {
-      title: 'Conjunto de Mandelbrot',
-      width: 900,
-      height: 600,
-      autosize: true,
-      paper_bgcolor: '#0A0E27',
-      plot_bgcolor: '#495057',
-      scene: {
-        xaxis: { title: 'Re (x)', range: [-2, 2], color: '#343A40' },
-        yaxis: { title: 'Im (y)', range: [-2, 2], color: '#343A40' },
-        zaxis: { title: 'Iteraciones', range: [0, 100], color: '#343A40' },
-      },
-    },
+    layout: layout3d({ x: 'Re c', y: 'Im c', z: 'Iteraciones', xr: [-2, 2], yr: [-2, 2], zr: [0, 100] }),
   };
 
   constructor(private apiService: ApiService) { }
 
   ngOnInit(): void {
-    // Realizar la llamada para obtener los datos del backend
-    this.apiService.getMandelbrot(5).subscribe({
+    this.load();
+  }
+
+  load() {
+    const d = Math.round(Number(this.exponent));
+    if (!Number.isFinite(d) || d < 2 || d > 8) {
+      this.error = 'El exponente debe ser un número entero entre 2 y 8.';
+      return;
+    }
+    this.loading = true;
+    this.error = null;
+    this.apiService.getMandelbrot(d).subscribe({
       next: (data) => {
         // Actualizar la visualización con los datos de iteraciones
         this.graph.data[0].x = data.x;
         this.graph.data[0].y = data.y;
-        this.graph.data[0].z = data.iterations;  // Solo usamos iteraciones
+        this.graph.data[0].z = data.iterations; // Solo usamos iteraciones
+        this.shownExponent = d;
+        this.loading = false;
       },
-      error: (error) => console.error('Error al obtener los datos', error),
+      error: (error) => {
+        console.error('Error al obtener los datos', error);
+        this.loading = false;
+        this.error = error?.status === 0 ? 'No hay conexión con la API de MathView.' : 'La API no ha podido calcular el conjunto.';
+      },
     });
   }
-
-
 }

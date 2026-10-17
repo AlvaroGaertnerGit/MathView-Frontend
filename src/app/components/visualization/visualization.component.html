@@ -1,48 +1,112 @@
-<div class="container">
-  <div class="left-panel">
-    <h1 class="title">MathView</h1>
-    <label for="functionInput">Introduce una función:</label>
-    <app-calculator id="functionInput"></app-calculator>
-    <div class="funciones_especiales" *ngIf="true">
-      <div class="texto__especiales">
-        <h3>Funciones especiales</h3>
-      </div>
-      <div class="button-container">
-        <button (click)="redirectToVisualizationZeta()">
-          Ir a Visualización Zeta
-        </button>
-        <button (click)="redirectToVisualizationMandelbrot()">
-          Ir a Visualización Mandelbrot
-        </button>
-      </div>
-    </div>
-  </div>
-<div class="modal-overlay" *ngIf="functionInfo" (click)="functionInfo = null">
-  <div class="modal-content" (click)="$event.stopPropagation()">
-    <button class="close-btn" (click)="functionInfo = null">×</button>
-    <h3>Información relevante de la función</h3>
-    <p><strong>Función:</strong> {{ functionInfo.expression }}</p>
-    <p><strong>Polos:</strong> {{ functionInfo.poles.join(', ') || 'Ninguno' }}</p>
-    <p><strong>Ceros:</strong> {{ functionInfo.zeros.join(', ') || 'Ninguno' }}</p>
-    <p><strong>Notas:</strong> {{ functionInfo.notes }}</p>
-    <p><strong>Representación:</strong> {{ getRepresentationDescription() }}</p>
-  </div>
-</div>
+<section class="workspace">
+  <!-- the function: write it, or start from an example -->
+  <aside class="editor" aria-labelledby="editor-title">
+    <p class="eyebrow">Plano complejo</p>
+    <h1 id="editor-title" class="title">Mira dentro de <em>f(z)</em></h1>
+    <p class="lede">Escribe una función de variable compleja. La altura muestra su magnitud |f(z)| y el color, su fase arg f(z).</p>
 
-  <div class="right-panel">
-    <div class="button-login">
-        <button (click)="openModal()">¿Cómo funciona MathView?</button>
-        <button  (click)="goToLogin()">Ir a Login</button>
+    <app-calculator></app-calculator>
+
+    <div class="examples">
+      <p class="eyebrow">Ejemplos</p>
+      <div class="chips">
+        @for (ex of examples; track ex.expr) {
+          <button type="button" class="chip" (click)="useExample(ex.expr)" [attr.aria-label]="'Representar ' + ex.label + ': ' + ex.note">
+            <span class="mono">{{ ex.label }}</span><small>{{ ex.note }}</small>
+          </button>
+        }
+      </div>
     </div>
-    <div class="modal-backdrop" *ngIf="showModal" (click)="closeModal()"></div>
-    <div class="modal" *ngIf="showModal">
-      <div *ngIf="showModalPrin" class="modal-content" (click)="$event.stopPropagation()">
-        <h2>¿Qué es MathView?</h2>
+
+    <div class="special">
+      <p class="eyebrow">Funciones especiales</p>
+      <button type="button" class="special-card" (click)="redirectToVisualizationZeta()">
+        <span class="sym" aria-hidden="true">ζ</span>
+        <span><b>Zeta de Riemann</b><small>|ζ(s)| en la banda crítica</small></span>
+        <span class="arrow" aria-hidden="true">→</span>
+      </button>
+      <button type="button" class="special-card" (click)="redirectToVisualizationMandelbrot()">
+        <span class="sym" aria-hidden="true">M</span>
+        <span><b>Conjunto de Mandelbrot</b><small>z ↦ z<sup>d</sup> + c, en 3D</small></span>
+        <span class="arrow" aria-hidden="true">→</span>
+      </button>
+    </div>
+  </aside>
+
+  <!-- the figure -->
+  <section class="viewer" aria-labelledby="viewer-title">
+    <header class="viewer-head">
+      <div class="expr-block">
+        <p class="eyebrow">{{ modeTitle() }}</p>
+        <h2 id="viewer-title" class="expr"><span class="fz">f(z) =</span> <span class="mono">{{ function }}</span></h2>
+      </div>
+      <div class="tools">
+        <div class="segmented" role="group" aria-label="Tipo de visualización">
+          <button type="button" [attr.aria-pressed]="showMagnitude" (click)="cambiaVisualizacion(2)">Magnitud</button>
+          <button type="button" [attr.aria-pressed]="showPhase" (click)="cambiaVisualizacion(1)">Fase</button>
+          <button type="button" [attr.aria-pressed]="show2D" (click)="cambiaVisualizacion(3)">2D</button>
+        </div>
+        <button type="button" class="btn" (click)="loadFunctionInfo()">Ceros y polos</button>
+        <button type="button" class="btn ghost" (click)="openModal()">Guía</button>
+      </div>
+    </header>
+
+    <div class="stage" [attr.aria-busy]="loading">
+      @if (showMagnitude) {
+        <div class="plot"><plotly-plot [data]="graph.data" [layout]="graph.layout" [config]="plotConfig" [useResizeHandler]="true" [style]="plotStyle"></plotly-plot></div>
+      }
+      @if (showPhase) {
+        <div class="plot"><plotly-plot [data]="graph2.data" [layout]="graph2.layout" [config]="plotConfig" [useResizeHandler]="true" [style]="plotStyle"></plotly-plot></div>
+      }
+      @if (show2D) {
+        <div class="plot"><plotly-plot [data]="graph3.data" [layout]="graph3.layout" [config]="plotConfig" [useResizeHandler]="true" [style]="plotStyle"></plotly-plot></div>
+      }
+      @if (loading) {
+        <div class="state" role="status"><div class="spinner"></div><span>Calculando la superficie…</span></div>
+      }
+      @if (error) {
+        <div class="state error" role="alert"><b>No se ha podido representar la función.</b><span>{{ error }}</span></div>
+      }
+    </div>
+
+    <p class="legend" aria-live="polite">
+      <span class="swatch" aria-hidden="true"></span>
+      @if (showMagnitude) { <span>Altura: |f(z)| · Color: arg f(z). Los ceros tocan el suelo; los polos se disparan.</span> }
+      @if (showPhase) { <span>Altura: arg f(z) · Color: |f(z)|. Los saltos de fase revelan cortes y singularidades.</span> }
+      @if (show2D) { <span>El plano z visto desde arriba · Color: arg f(z). En ceros y polos se juntan todos los colores.</span> }
+      <span class="hint">Arrastra para girar · rueda para acercar · icono de cámara para descargar</span>
+    </p>
+  </section>
+</section>
+
+<!-- zeros and poles (API: analyzeFunction) -->
+@if (functionInfo) {
+  <div class="dialog-backdrop" (click)="functionInfo = null">
+    <div class="dialog info" role="dialog" aria-modal="true" aria-labelledby="info-title" (click)="$event.stopPropagation()">
+      <p class="eyebrow">Análisis de la función</p>
+      <h2 id="info-title">f(z) = <span class="mono">{{ functionInfo.expression }}</span></h2>
+      <dl>
+        <div><dt>Ceros</dt><dd class="mono">{{ functionInfo.zeros.join(', ') || 'Ninguno' }}</dd></div>
+        <div><dt>Polos</dt><dd class="mono">{{ functionInfo.poles.join(', ') || 'Ninguno' }}</dd></div>
+        <div><dt>Notas</dt><dd>{{ functionInfo.notes }}</dd></div>
+        <div><dt>Esta vista</dt><dd>{{ getRepresentationDescription() }}</dd></div>
+      </dl>
+      <div class="actions"><button type="button" class="btn primary" (click)="functionInfo = null">Cerrar</button></div>
+    </div>
+  </div>
+}
+
+<!-- user guide (original content) -->
+@if (showModal) {
+  <div class="dialog-backdrop" (click)="closeModal()">
+    <div class="dialog" role="dialog" aria-modal="true" [attr.aria-labelledby]="showModalPrin ? 'guide-1' : 'guide-2'" (click)="$event.stopPropagation()">
+      @if (showModalPrin) {
+        <p class="eyebrow">Guía · 1 de 2</p>
+        <h2 id="guide-1">¿Qué es MathView?</h2>
         <p><strong>MathView</strong> es una plataforma diseñada para facilitar la comprensión del análisis complejo mediante la visualización en 3D de funciones matemáticas. Permite explorar la magnitud y fase de funciones complejas de forma intuitiva.</p>
-        
         <h3>Manual de usuario</h3>
         <ul>
-          <li>Introduce una función compleja en el campo de entrada (ej: <code>z</code>, <code>1/z</code>, <code>exp(z)</code>).</li>
+          <li>Introduce una función compleja en el campo de entrada (ej: <code>z</code>, <code>1/z</code>, <code>exp(z)</code>) y pulsa Intro o «Representar».</li>
           <li>Usa los botones para cambiar entre la visualización de magnitud, fase y vista 2D.</li>
           <li>Puedes rotar, acercar y alejar el gráfico con el ratón.</li>
           <li>También puedes descargar una imagen de la representación.</li>
@@ -52,62 +116,37 @@
           <li>El apartado de funciones especiales representa funciones de especial interés para las matemáticas.</li>
           <li>Puede ser que tarde un rato en cargar alguna visualización. ¡Disculpa las molestias!</li>
         </ul>
-        <button class="close-button" (click)="closeModal()">Cerrar</button>
-        <button class="next-button" (click)="siguienteModal()">Sobre la representación</button>
-      </div>
-      <div *ngIf="showModalExp" class="modal-content" (click)="$event.stopPropagation()">
-        <h3>Tipos de visualización</h3>
-
-          <h4>Visualización por <strong>magnitud</strong></h4>
-          <p>
-            En este modo, la <strong>altura</strong> del gráfico representa la <em>magnitud</em> de la función compleja <code>|f(z)|</code>. El <strong>color</strong> indica la <em>fase</em> o argumento <code>arg(f(z))</code>.
-          </p>
-          <ul>
-            <li>Los <strong>ceros</strong> aparecen como puntos bajos (altura nula).</li>
-            <li>Las zonas donde la función <strong>tiende a infinito</strong> se elevan abruptamente.</li>
-            <li>Los <strong>cambios de color</strong> muestran variaciones en la fase.</li>
-          </ul>
-
-          <h4>Visualización por <strong>fase</strong></h4>
-          <p>
-            En este caso, la <strong>altura</strong> representa el <em>argumento</em> <code>arg(f(z))</code> de la función, mientras que el <strong>color</strong> muestra la <em>magnitud</em> <code>|f(z)|</code>.
-          </p>
-          <ul>
-            <li>Permite identificar <strong>saltos de fase</strong> o cambios angulares abruptos.</li>
-            <li>Se destacan <strong>singularidades</strong> y comportamientos rotacionales.</li>
-          </ul>
-
-          <h4>Visualización <strong>2D</strong></h4>
-          <p>
-            Esta vista proyecta la información sobre el plano complejo sin usar altura. Los <strong>colores</strong> indican la fase, y opcionalmente la magnitud mediante la intensidad del color.
-          </p>
-          <ul>
-            <li>Facilita una lectura rápida de <strong>ceros</strong>, <strong>polos</strong> y <strong>simetrías</strong>.</li>
-          </ul>
-          <h4>¡Y para más información!</h4>
-          <p>Podéis visitar la página en la que se ha basado el conocimiento para llevar a cabo esta herramienta.</p>
-          <p>El libro interactivo de <strong>Juan Carlos Ponce Campuzano</strong><a href="https://complex-analysis.com/">: <em>Complex Analysis</em></a></p>
-          <button class="close-button" (click)="closeModal()">Cerrar</button>
-          <button class="next-button" (click)="anteriorModal()">Anterior</button>
-      </div>
-    </div>
-
-    <div *ngIf="showMagnitude" class="plot-container">
-      <plotly-plot [data]="graph.data" [layout]="graph.layout"></plotly-plot>
-    </div>
-    <div *ngIf="showPhase" class="plot-container">
-      <plotly-plot [data]="graph2.data" [layout]="graph2.layout"></plotly-plot>
-    </div>
-    <div *ngIf="show2D" class="plot-container">
-      <plotly-plot [data]="graph3.data" [layout]="graph3.layout"></plotly-plot>
-    </div>
-    <div class="text-container">
-      <p>Esta es una representación de la función {{function}} en el plano complejo.</p>
-      <div class="button-container">
-        <button *ngIf="showMagnitude || show2D" (click)="cambiaVisualizacion(1)">Ver fase</button>
-        <button *ngIf="showPhase || show2D" (click)="cambiaVisualizacion(2)">Ver magnitud</button>
-        <button *ngIf="showPhase || showMagnitude" (click)="cambiaVisualizacion(3)">Ver en 2D</button>
-      </div>
+        <div class="actions">
+          <button type="button" class="btn ghost" (click)="closeModal()">Cerrar</button>
+          <button type="button" class="btn primary" (click)="siguienteModal()">Sobre la representación →</button>
+        </div>
+      }
+      @if (showModalExp) {
+        <p class="eyebrow">Guía · 2 de 2</p>
+        <h2 id="guide-2">Tipos de visualización</h2>
+        <h4>Visualización por magnitud</h4>
+        <p>En este modo, la <strong>altura</strong> del gráfico representa la <em>magnitud</em> de la función compleja <code>|f(z)|</code>. El <strong>color</strong> indica la <em>fase</em> o argumento <code>arg(f(z))</code>.</p>
+        <ul>
+          <li>Los <strong>ceros</strong> aparecen como puntos bajos (altura nula).</li>
+          <li>Las zonas donde la función <strong>tiende a infinito</strong> se elevan abruptamente.</li>
+          <li>Los <strong>cambios de color</strong> muestran variaciones en la fase.</li>
+        </ul>
+        <h4>Visualización por fase</h4>
+        <p>En este caso, la <strong>altura</strong> representa el <em>argumento</em> <code>arg(f(z))</code> de la función, mientras que el <strong>color</strong> muestra la <em>magnitud</em> <code>|f(z)|</code>.</p>
+        <ul>
+          <li>Permite identificar <strong>saltos de fase</strong> o cambios angulares abruptos.</li>
+          <li>Se destacan <strong>singularidades</strong> y comportamientos rotacionales.</li>
+        </ul>
+        <h4>Visualización 2D</h4>
+        <p>Esta vista proyecta la información sobre el plano complejo sin usar altura. Los <strong>colores</strong> indican la fase.</p>
+        <ul><li>Facilita una lectura rápida de <strong>ceros</strong>, <strong>polos</strong> y <strong>simetrías</strong>.</li></ul>
+        <h4>Para saber más</h4>
+        <p>El conocimiento en el que se basa esta herramienta procede del libro interactivo de <strong>Juan Carlos Ponce Campuzano</strong>, <a href="https://complex-analysis.com/" target="_blank" rel="noopener"><em>Complex Analysis</em></a>.</p>
+        <div class="actions">
+          <button type="button" class="btn ghost" (click)="anteriorModal()">← Anterior</button>
+          <button type="button" class="btn primary" (click)="closeModal()">Cerrar</button>
+        </div>
+      }
     </div>
   </div>
-</div>
+}

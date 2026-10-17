@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
+import { RouterLink } from '@angular/router';
 import { PlotlyModule } from 'angular-plotly.js';
 import * as PlotlyJS from 'plotly.js-dist-min';
 import { ApiService } from '../../services/api.service';
+import { PLOT_CONFIG, SEQUENTIAL_SCALE, colorbar, layout3d } from '../../shared/plot-theme';
 
 PlotlyModule.plotlyjs = PlotlyJS;
 
@@ -10,58 +12,33 @@ PlotlyModule.plotlyjs = PlotlyJS;
   selector: 'app-visualization-zeta',
   templateUrl: './visualization-zeta.component.html',
   styleUrl: './visualization-zeta.component.scss',
-  imports: [PlotlyModule],
+  imports: [PlotlyModule, RouterLink],
 })
 export class VisualizationZetaComponent implements OnInit {
+  loading = true;
+  error: string | null = null;
+  readonly plotConfig = PLOT_CONFIG;
+  readonly plotStyle = { position: 'relative', width: '100%', height: '100%' };
+
+  // |ζ(s)| over 0 ≤ Re s ≤ 1, −30 ≤ Im s ≤ 30 (the API's grid), clipped at 6 as before.
+  // Colour follows the height: a magnitude is not cyclic, so a sequential scale.
   graph = {
     data: [
       {
-        z: [], // La magnitud como matriz 2D
-        x: [], // Valores reales
-        y: [], // Valores imaginarios
-        type: 'surface', // Representamos un plano 3D
-        colorscale: [
-          [0.0, 'rgb(255, 0, 0)'], // Rojo
-          [0.17, 'rgb(255, 0, 255)'], // Magenta
-          [0.33, 'rgb(0, 0, 255)'], // Azul
-          [0.5, 'rgb(0, 255, 255)'], // Cyan
-          [0.67, 'rgb(0, 255, 0)'], // Verde
-          [0.83, 'rgb(255, 255, 0)'], // Amarillo
-          [1.0, 'rgb(255, 0, 0)'], // Rojo (cierre del ciclo)
-        ], // Escala de colores
-        colorbar: {
-          bgcolor: '#0A0E27', // Fondo de la barra de colores
-          tickcolor: '#343A40', // Color de las marcas de los ticks
-          title: {
-            text: '', // Texto del título de la barra
-            font: {
-              color: '#343A40', // Color del texto del título
-              size: 14 // Tamaño del título
-            }
-          },
-          tickfont: {
-            color: '#ffffff', // Color de los valores numéricos
-            size: 12 // Tamaño del texto
-          }
-        },
+        z: [],
+        x: [],
+        y: [],
+        type: 'surface',
+        colorscale: SEQUENTIAL_SCALE,
+        colorbar: colorbar('|ζ(s)|'),
         zmin: 0,
         zmax: 6,
+        lighting: { ambient: 0.75, diffuse: 0.6, specular: 0.15, roughness: 0.6 },
       },
     ],
-    layout: {
-      title: 'Plano Complejo',
-      width: 900, // Ancho en píxeles
-      autosize: true,
-      paper_bgcolor: '#0A0E27',
-      plot_bgcolor: '#495057',
-      height: 600, // Altura en píxeles
-      scene: {
-        xaxis: { title: 'Re (x)', range: [0, 1], color: '#343A40' },
-        yaxis: { title: 'Im (y)', range: [-30, 30], color: '#343A40' },
-        zaxis: { title: '|f(z)| (magnitud)', range: [0, 5], color: '#343A40' },
-      },
-    },
+    layout: layout3d({ x: 'Re s', y: 'Im s', z: '|ζ(s)|', xr: [0, 1], yr: [-30, 30], zr: [0, 5] }),
   };
+
   constructor(private apiService: ApiService) { }
 
   ngOnInit(): void {
@@ -70,10 +47,13 @@ export class VisualizationZetaComponent implements OnInit {
         this.graph.data[0].x = data.x;
         this.graph.data[0].y = data.y;
         this.graph.data[0].z = data.magnitude;
-
-        // Opcional: agregar una transformación para fases o colores personalizados
+        this.loading = false;
       },
-      error: (error) => console.error('Error al obtener los datos', error),
+      error: (error) => {
+        console.error('Error al obtener los datos', error);
+        this.loading = false;
+        this.error = error?.status === 0 ? 'No hay conexión con la API de MathView.' : 'La API no ha podido calcular la función zeta.';
+      },
     });
   }
 }

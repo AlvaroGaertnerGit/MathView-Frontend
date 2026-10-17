@@ -1,0 +1,99 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>MathView · antes y después</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root { --ink: #07090f; --panel: #0e121c; --line: rgba(232,235,242,.1); --text: #e8ebf2; --muted: #8b93a7; --accent: #8fe3cf; }
+  * { box-sizing: border-box; margin: 0; }
+  body { background: var(--ink); color: var(--text); font: 16px/1.55 Inter, system-ui, sans-serif; -webkit-font-smoothing: antialiased; }
+  main { max-width: 1400px; margin: 0 auto; padding: 48px 24px 96px; }
+  .eyebrow { font: 500 12px "JetBrains Mono", monospace; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); }
+  h1 { font: 400 clamp(44px, 7vw, 84px)/1 "Instrument Serif", serif; letter-spacing: -.02em; margin-top: 10px; }
+  h1 em { color: var(--accent); }
+  .lead { max-width: 760px; color: #b6bccb; margin-top: 16px; font-size: 18px; }
+  h2 { font-size: 22px; font-weight: 600; margin: 56px 0 14px; letter-spacing: -.01em; }
+  .pair { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-top: 18px; }
+  figure { margin: 0; }
+  figure img { width: 100%; display: block; border-radius: 10px; border: 1px solid var(--line); background: #000; }
+  .label { font: 500 12px "JetBrains Mono", monospace; letter-spacing: .06em; text-transform: uppercase; color: var(--muted); margin-bottom: 6px; }
+  .after .label { color: var(--accent); }
+  figcaption { font-size: 13px; color: var(--muted); margin-top: 6px; }
+  .mobile { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; align-items: start; }
+  .gallery { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
+  ul { margin: 12px 0 0 18px; color: #b6bccb; display: grid; gap: 6px; max-width: 900px; }
+  b { color: var(--text); font-weight: 600; }
+  @media (max-width: 820px) { .pair, .gallery { grid-template-columns: 1fr; } .mobile { grid-template-columns: 1fr 1fr; } }
+</style>
+</head>
+<body>
+<main>
+  <p class="eyebrow">MathView · rediseño del frontend · 2026-10-15</p>
+  <h1>Antes y <em>después</em></h1>
+  <p class="lead">Mismos cálculos y mismos datos (API local de MathView): cambian la jerarquía, la legibilidad de las figuras, la navegación y los estados. Todas las imágenes son capturas reales de la aplicación en funcionamiento.</p>
+
+  <h2>Plano complejo · (z²−1)/(z²+1)</h2>
+  <div class="pair">
+    <figure><p class="label">Antes</p><img src="capturas/antes/escritorio-02-funcion-racional.png" alt="Versión original: botones morados, ejes ilegibles, gráfica pequeña"></figure>
+    <figure class="after"><p class="label">Después</p><img src="capturas/despues/escritorio-02-funcion-racional.png" alt="Rediseño: navegación, editor con ejemplos y la figura a toda altura"></figure>
+  </div>
+
+  <h2>Vista 2D</h2>
+  <div class="pair">
+    <figure><p class="label">Antes</p><img src="capturas/antes/escritorio-04-2d.png" alt=""></figure>
+    <figure class="after"><p class="label">Después</p><img src="capturas/despues/escritorio-04-2d.png" alt=""></figure>
+  </div>
+
+  <h2>Zeta de Riemann</h2>
+  <div class="pair">
+    <figure><p class="label">Antes</p><img src="capturas/antes/escritorio-06-zeta.png" alt=""><figcaption>Solo se llegaba con el botón; el enlace directo daba «Cannot GET».</figcaption></figure>
+    <figure class="after"><p class="label">Después</p><img src="capturas/despues/escritorio-06-zeta.png" alt=""><figcaption>Qué se calcula, en qué dominio y con qué rejilla; enlace directo funcional.</figcaption></figure>
+  </div>
+
+  <h2>Mandelbrot</h2>
+  <div class="pair">
+    <figure><p class="label">Antes</p><img src="capturas/antes/escritorio-07-mandelbrot.png" alt=""><figcaption>«Introduce el exponente» sin campo; el exponente no llegaba a la API.</figcaption></figure>
+    <figure class="after"><p class="label">Después</p><img src="capturas/despues/escritorio-07-mandelbrot.png" alt=""><figcaption>Exponente editable que sí llega a la API (parámetro <code>d</code>).</figcaption></figure>
+  </div>
+
+  <h2>Guía y acceso</h2>
+  <div class="pair">
+    <figure><p class="label">Antes</p><img src="capturas/antes/escritorio-05-ayuda.png" alt=""></figure>
+    <figure class="after"><p class="label">Después</p><img src="capturas/despues/escritorio-05-ayuda.png" alt=""></figure>
+  </div>
+  <div class="pair">
+    <figure><p class="label">Antes</p><img src="capturas/antes/escritorio-08-login.png" alt=""></figure>
+    <figure class="after"><p class="label">Después</p><img src="capturas/despues/escritorio-08-login.png" alt=""><figcaption>El servicio de autenticación no existe en los repositorios: la pantalla no puede autenticar.</figcaption></figure>
+  </div>
+
+  <h2>Móvil</h2>
+  <div class="mobile">
+    <figure><p class="label">Antes</p><img src="capturas/antes/movil-01-inicio.png" alt=""><figcaption>La figura, al final.</figcaption></figure>
+    <figure class="after"><p class="label">Después</p><img src="capturas/despues/movil-01-inicio.png" alt=""><figcaption>La figura, primero.</figcaption></figure>
+    <figure><p class="label">Antes</p><img src="capturas/antes/movil-07-mandelbrot.png" alt=""></figure>
+    <figure class="after"><p class="label">Después</p><img src="capturas/despues/movil-07-mandelbrot.png" alt=""></figure>
+  </div>
+
+  <h2>Recursos para el portfolio <span class="eyebrow">resultados reales, 2×</span></h2>
+  <div class="gallery">
+    <figure><img src="recursos/plano-racional-magnitud.png" alt=""><figcaption>|f(z)| de (z²−1)/(z²+1)</figcaption></figure>
+    <figure><img src="recursos/plano-racional-2d.png" alt=""><figcaption>Mapa de fase de (z²−1)/(z²+1)</figcaption></figure>
+    <figure><img src="recursos/plano-cubica-2d.png" alt=""><figcaption>z³−1: las tres raíces de la unidad</figcaption></figure>
+    <figure><img src="recursos/plano-seno-fase.png" alt=""><figcaption>Fase de sen z en altura</figcaption></figure>
+    <figure><img src="recursos/zeta-banda-critica.png" alt=""><figcaption>|ζ(s)| en la banda crítica</figcaption></figure>
+    <figure><img src="recursos/mandelbrot-d3.png" alt=""><figcaption>Multibrot, d = 3</figcaption></figure>
+  </div>
+
+  <h2>Qué ha cambiado</h2>
+  <ul>
+    <li><b>Funciona lo que no funcionaba:</b> enlaces directos, exponente de Mandelbrot, tecla ÷, ceros y polos accesibles, Intro en el campo.</li>
+    <li><b>Se ve lo que no se veía:</b> ejes, títulos y barras de color legibles; errores y cargas visibles.</li>
+    <li><b>Jerarquía:</b> la figura es la protagonista; el editor, los ejemplos y las funciones especiales la acompañan.</li>
+    <li><b>Sin cambios:</b> los cálculos, la API, los datos, las escalas de fase y los modos.</li>
+  </ul>
+</main>
+</body>
+</html>

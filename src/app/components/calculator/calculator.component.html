@@ -1,67 +1,68 @@
 <div class="calculator">
-  <div class="input-container">
-    <input 
-      class="expression-input" 
-      type="text" 
-      [(ngModel)]="displayExpression" 
-      placeholder="f(x) = ..."
+  <label class="sr-only" for="expression">Función f(z)</label>
+  <div class="input-row">
+    <span class="prefix" aria-hidden="true">f(z) =</span>
+    <input
+      id="expression"
+      class="expression-input"
+      type="text"
+      inputmode="text"
+      autocomplete="off"
+      spellcheck="false"
+      [(ngModel)]="displayExpression"
+      (keydown.enter)="sendFunction()"
+      placeholder="(z^2-1)/(z^2+1)"
     />
-    <button class="clear-button" (click)="clearInput()">
-      <i class="fa-solid fa-xmark"></i>
-    </button>
+    @if (displayExpression) {
+      <button type="button" class="clear" (click)="clearInput()" aria-label="Borrar la función">
+        <svg viewBox="0 0 16 16" width="14" height="14" aria-hidden="true"><path d="M3.5 3.5l9 9m0-9l-9 9" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+      </button>
+    }
   </div>
-  
-  <div class="tabs-container">
-    <button 
-      class="tab-button" 
-      (click)="setTab('numbers')" 
-      [class.active]="currentTab === 'numbers'"
-    >
-      123
-    </button>
-    <button 
-      class="tab-button" 
-      (click)="setTab('functions')" 
-      [class.active]="currentTab === 'functions'"
-    >
-      f(x)
-    </button>
-    <button 
-      class="tab-button" 
-      (click)="setTab('symbols')" 
-      [class.active]="currentTab === 'symbols'"
-    >
-      #&¬
-    </button>
+
+  <div class="tabs" role="tablist" aria-label="Teclado">
+    @for (tab of tabs; track tab.id) {
+      <button
+        type="button"
+        role="tab"
+        class="tab"
+        [id]="'tab-' + tab.id"
+        [attr.aria-selected]="currentTab === tab.id"
+        [attr.aria-controls]="'pad-' + tab.id"
+        (click)="setTab(tab.id)"
+      >{{ tab.label }}</button>
+    }
   </div>
-  
-  <div class="keypad" *ngIf="currentTab === 'numbers'">
-    <button 
-      class="keypad-button" 
-      *ngFor="let num of numbers" 
-      (click)="addSymbol(num.symbol)"
-    >
-      {{ num.display }}
-    </button>
-  </div>
-  
-  <div class="keypad" *ngIf="currentTab === 'functions'">
-    <button 
-      class="keypad-button" 
-      *ngFor="let func of functions" 
-      (click)="addSymbol(func.symbol)"
-    >
-      {{ func.display }}
-    </button>
-  </div>
-  
-  <div class="keypad" *ngIf="currentTab === 'symbols'">
-    <button 
-      class="keypad-button" 
-      *ngFor="let sym of symbols" 
-      (click)="addSymbol(sym)"
-    >
-      {{ sym }}
-    </button>
-  </div>
+
+  @if (currentTab === 'numbers') {
+    <div class="keypad numbers" role="tabpanel" id="pad-numbers" aria-labelledby="tab-numbers">
+      @for (num of numbers; track num.symbol) {
+        <button
+          type="button"
+          class="key"
+          [class.op]="'·/+-'.includes(num.symbol)"
+          [class.del]="num.symbol === '⌫'"
+          [class.go]="num.symbol === '↵'"
+          [attr.aria-label]="keyLabels[num.symbol] || null"
+          (click)="addSymbol(num.symbol)"
+        >{{ num.symbol === '↵' ? 'Representar' : num.display }}</button>
+      }
+    </div>
+  }
+
+  @if (currentTab === 'functions') {
+    <div class="keypad functions" role="tabpanel" id="pad-functions" aria-labelledby="tab-functions">
+      @for (func of functions; track func.symbol) {
+        <button type="button" class="key fn" [attr.aria-label]="keyLabels[func.symbol] || null" (click)="addSymbol(func.symbol)">{{ func.display }}</button>
+      }
+    </div>
+  }
+
+  @if (currentTab === 'symbols') {
+    <div class="keypad symbols" role="tabpanel" id="pad-symbols" aria-labelledby="tab-symbols">
+      @for (sym of symbols; track sym) {
+        <button type="button" class="key sym" [attr.aria-label]="keyLabels[sym] || null" (click)="addSymbol(sym)">{{ sym }}</button>
+      }
+    </div>
+  }
 </div>

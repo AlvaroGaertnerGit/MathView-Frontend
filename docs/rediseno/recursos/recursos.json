@@ -1,0 +1,54 @@
+{
+ "origen": "Capturas reales de MathView (API local, Django) tras el rediseño",
+ "fecha": "2026-10-15T14:38:24.443Z",
+ "recursos": [
+  {
+   "file": "plano-racional-magnitud.png",
+   "what": "|f(z)| de (z²−1)/(z²+1): ceros en ±1, polos en ±i; color = arg f(z)"
+  },
+  {
+   "file": "plano-racional-2d.png",
+   "what": "Vista 2D de (z²−1)/(z²+1): coloración por fase"
+  },
+  {
+   "file": "plano-cubica-2d.png",
+   "what": "Vista 2D de z³−1: las tres raíces cúbicas de la unidad"
+  },
+  {
+   "file": "plano-cubica-magnitud.png",
+   "what": "|f(z)| de z³−1"
+  },
+  {
+   "file": "plano-seno-fase.png",
+   "what": "Fase de sen z en altura; color = |f(z)|"
+  },
+  {
+   "file": "plano-inversa-magnitud.png",
+   "what": "|1/z|: un polo en el origen"
+  },
+  {
+   "file": "pantalla-plano-complejo.png",
+   "what": "Pantalla completa: editor, ejemplos y figura"
+  },
+  {
+   "file": "zeta-banda-critica.png",
+   "what": "|ζ(s)| en 0 ≤ Re s ≤ 1, −30 ≤ Im s ≤ 30"
+  },
+  {
+   "file": "pantalla-zeta.png",
+   "what": "Pantalla completa de la función zeta"
+  },
+  {
+   "file": "mandelbrot-d2.png",
+   "what": "Conjunto de Mandelbrot clásico (d = 2), iteraciones en altura"
+  },
+  {
+   "file": "mandelbrot-d3.png",
+   "what": "Conjunto de Multibrot con d = 3"
+  },
+  {
+   "file": "movil-plano-complejo.png",
+   "what": "Móvil: la figura primero"
+  }
+ ]
+}
